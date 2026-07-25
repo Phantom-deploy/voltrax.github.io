@@ -416,6 +416,70 @@
     if (y) y.textContent = new Date().getFullYear();
   }
 
+  /* --------------------------------------------------------------- theme */
+  function currentTheme() {
+    return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
+  }
+  function applyTheme(theme, persist) {
+    theme = theme === "dark" ? "dark" : "light";
+    document.documentElement.setAttribute("data-theme", theme);
+    if (persist !== false) { try { localStorage.setItem("voltrax-theme", theme); } catch (e) {} }
+    var m = document.querySelector('meta[name="theme-color"]');
+    if (m) m.setAttribute("content", theme === "dark" ? "#14120D" : "#16130E");
+    document.querySelectorAll("[data-theme-opt]").forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.dataset.themeOpt === theme));
+    });
+  }
+  function initThemeToggle() {
+    document.querySelectorAll("[data-theme-toggle]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        applyTheme(currentTheme() === "dark" ? "light" : "dark");
+      });
+    });
+  }
+
+  /* ----------------------------------------------------- onboarding popup */
+  function syncOnboard(pop) {
+    pop.querySelectorAll("[data-onboard-lang]").forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.dataset.onboardLang === i18n.lang));
+    });
+    pop.querySelectorAll("[data-theme-opt]").forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.dataset.themeOpt === currentTheme()));
+    });
+  }
+  function closeOnboard(pop) {
+    try { localStorage.setItem("voltrax-onboarded", "1"); } catch (e) {}
+    i18n.setLang(i18n.lang);          // persist language (default es if untouched)
+    applyTheme(currentTheme());        // persist theme (default light if untouched)
+    pop.classList.remove("is-open");
+    document.body.style.overflow = "";
+  }
+  function initOnboarding() {
+    var onboarded = false;
+    try { onboarded = localStorage.getItem("voltrax-onboarded") === "1"; } catch (e) {}
+    var pop = document.getElementById("onboard");
+    if (!pop || onboarded) return;
+
+    pop.querySelectorAll("[data-onboard-lang]").forEach(function (b) {
+      b.addEventListener("click", function () { i18n.setLang(b.dataset.onboardLang); syncOnboard(pop); });
+    });
+    pop.querySelectorAll("[data-theme-opt]").forEach(function (b) {
+      b.addEventListener("click", function () { applyTheme(b.dataset.themeOpt); });
+    });
+    var done = pop.querySelector("[data-onboard-done]");
+    if (done) done.addEventListener("click", function () { closeOnboard(pop); });
+    pop.querySelector(".onboard__scrim").addEventListener("click", function () { closeOnboard(pop); });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && pop.classList.contains("is-open")) closeOnboard(pop);
+    });
+
+    syncOnboard(pop);
+    pop.classList.add("is-open");
+    document.body.style.overflow = "hidden";
+    var firstBtn = pop.querySelector("[data-onboard-lang]");
+    if (firstBtn) { try { firstBtn.focus(); } catch (e) {} }
+  }
+
   /* --------------------------------------------------------------- boot */
   function boot() {
     initHeader();
@@ -428,8 +492,11 @@
     initImportCta();
     initForm();
     initYear();
+    initThemeToggle();
     initReveal();
     i18n.setLang(i18n.lang); // paint translations + set toggle state
+    applyTheme(currentTheme(), false); // sync meta + popup seg state (no persist)
+    initOnboarding();
 
     // Re-render data-driven content when language changes
     document.addEventListener("voltrax:lang", function () {

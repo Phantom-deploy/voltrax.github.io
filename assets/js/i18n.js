@@ -16,6 +16,19 @@ window.VOLTRAX.i18n = {
   "lang.en":           { en: "EN", es: "EN" },
   "lang.es":           { en: "ES", es: "ES" },
 
+  /* ---- onboarding popup + theme ---- */
+  "onboard.title":   { en: "Welcome to Voltrax EV", es: "Bienvenido a Voltrax EV" },
+  "onboard.sub":     { en: "Choose how you'd like to browse. You can change this anytime.",
+                       es: "Elige cómo quieres navegar. Puedes cambiarlo cuando quieras." },
+  "onboard.langLabel":  { en: "Language", es: "Idioma" },
+  "onboard.themeLabel": { en: "Appearance", es: "Apariencia" },
+  "onboard.langEs":  { en: "Español", es: "Español" },
+  "onboard.langEn":  { en: "English", es: "English" },
+  "onboard.light":   { en: "Light", es: "Claro" },
+  "onboard.dark":    { en: "Dark", es: "Oscuro" },
+  "onboard.continue":{ en: "Continue", es: "Continuar" },
+  "theme.toggle":    { en: "Toggle light / dark mode", es: "Cambiar modo claro / oscuro" },
+
   /* ---- generic CTAs ---- */
   "cta.viewBikes":     { en: "View the lineup", es: "Ver la gama" },
   "cta.exploreBikes":  { en: "Explore all bikes", es: "Ver todas las motos" },
@@ -189,8 +202,7 @@ window.VOLTRAX.i18n = {
     var saved = null;
     try { saved = localStorage.getItem(STORE_KEY); } catch (e) {}
     if (saved === "en" || saved === "es") return saved;
-    var nav = (navigator.language || "en").toLowerCase();
-    return nav.indexOf("es") === 0 ? "es" : "en";
+    return "es"; // Spanish is the default language (Panama market)
   }
 
   var state = { lang: detect() };

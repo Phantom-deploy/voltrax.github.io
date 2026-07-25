@@ -9,6 +9,7 @@ window.VOLTRAX = window.VOLTRAX || {};
 /* Label dictionary reused across spec rows (keeps data DRY + translatable) */
 const L = {
   power:     { en: "Motor power",       es: "Potencia del motor" },
+  peakpower: { en: "Peak power",        es: "Potencia máxima" },
   torque:    { en: "Peak torque",       es: "Par máximo" },
   battery:   { en: "Battery",           es: "Batería" },
   topspeed:  { en: "Top speed",         es: "Velocidad máx." },
@@ -46,7 +47,7 @@ window.VOLTRAX.bikes = [
     highlights: [
       { k: L.topspeed, v: "56 mph" },
       { k: L.range,    v: "87 mi" },
-      { k: L.power,    v: "12.5 kW" },
+      { k: L.peakpower, v: "12.5 kW" },
       { k: L.torque,   v: "440 Nm" },
     ],
     finishes: [
@@ -92,7 +93,7 @@ window.VOLTRAX.bikes = [
     highlights: [
       { k: L.topspeed, v: "60 mph" },
       { k: L.range,    v: "100+ mi" },
-      { k: L.power,    v: "15.8 kW" },
+      { k: L.peakpower, v: "15.8 kW" },
       { k: L.battery,  v: "72V · 50Ah" },
     ],
     blurb: T(
@@ -131,7 +132,7 @@ window.VOLTRAX.bikes = [
     highlights: [
       { k: L.topspeed, v: "60 mph" },
       { k: L.range,    v: "90+ mi" },
-      { k: L.power,    v: "12 kW" },
+      { k: L.peakpower, v: "12 kW" },
       { k: L.battery,  v: "72V · 40Ah" },
     ],
     blurb: T(
@@ -171,7 +172,7 @@ window.VOLTRAX.bikes = [
     highlights: [
       { k: L.topspeed, v: "49 mph" },
       { k: L.range,    v: "65+ mi" },
-      { k: L.power,    v: "8 kW" },
+      { k: L.peakpower, v: "8 kW" },
       { k: L.battery,  v: "72V · 30Ah" },
     ],
     blurb: T(
