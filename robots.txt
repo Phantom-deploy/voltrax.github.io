@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://phantom-deploy.github.io/sitemap.xml
+Sitemap: https://phantom-deploy.github.io/voltrax.github.io/sitemap.xml
