@@ -230,7 +230,7 @@
         "</div>" +
       "</div>";
     document.body.appendChild(m);
-    m.addEventListener("click", function (e) { if (e.target.hasAttribute("data-close")) closeModal(); });
+    m.addEventListener("click", function (e) { if (e.target.closest("[data-close]")) closeModal(); });
     document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeModal(); });
   }
 
