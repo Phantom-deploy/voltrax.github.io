@@ -1,0 +1,33 @@
+# Voltrax EV
+
+> Concesionario de motos eléctricas premium en Costa del Este, Ciudad de Panamá. Vende y da soporte a Sur-Ron, E-Ride Pro y EBox, con repuestos e importación por pedido especial. Atención principal por WhatsApp. Sitio bilingüe (español predeterminado / inglés).
+
+## Negocio
+- Nombre: Voltrax EV
+- Ubicación: Rada Plaza, Costa del Este, Ciudad de Panamá, Panamá
+- Teléfono / WhatsApp: +507 6013-9901 (https://wa.me/50760139901)
+- Correo: andres@voltrax-ev.com
+- Instagram: https://www.instagram.com/voltrax.ev
+- TikTok: https://www.tiktok.com/@voltrax.ev
+- Idiomas: Español (predeterminado), Inglés
+- Moneda: USD
+
+## Motos eléctricas en stock
+- Sur-Ron Ultra Bee HP — 21 kW pico (Turbo), 511 Nm, batería 74V 60Ah, 59 mph (95 km/h), frenos de 4 pistones.
+- E-Ride Pro SS 3.0 — 72V 50Ah, 16 kW pico, 60 mph, autonomía de más de 160 km.
+- E-Ride Pro SS — 72V 40Ah, 12 kW pico, 60 mph.
+- E-Ride Pro S 16" — 72V 30Ah, 8 kW pico, 49 mph, ruedas de 16".
+- EBox Dragster — mini-moto eléctrica de 72V.
+
+## Repuestos y accesorios
+Marcas: Baja Designs (iluminación LED), ProTaper (manillares), ODI (puños), GUTS Racing (fundas de asiento), además de frenos y estriberas para Sur-Ron Ultra Bee.
+
+## Páginas
+- Inicio: https://phantom-deploy.github.io/voltrax.github.io/
+- Motos (catálogo y fichas técnicas): https://phantom-deploy.github.io/voltrax.github.io/bikes.html
+- Repuestos y accesorios: https://phantom-deploy.github.io/voltrax.github.io/parts.html
+
+## Notas
+- Los precios se cotizan bajo consulta por WhatsApp; el sitio no publica precios.
+- Programa de importación: modelos adicionales por pedido especial, con recogida en Voltrax; los tiempos de entrega varían según el fabricante.
+- Todas las especificaciones provienen de material oficial de los fabricantes (Sur-Ron, E-Ride Pro, EBox).

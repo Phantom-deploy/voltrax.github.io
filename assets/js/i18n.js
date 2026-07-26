@@ -199,10 +199,17 @@ window.VOLTRAX.i18n = {
   var STORE_KEY = "voltrax-lang";
 
   function detect() {
+    // 1) explicit ?lang= param (used by hreflang / shared links) wins and persists
+    try {
+      var p = new URLSearchParams(location.search).get("lang");
+      if (p === "en" || p === "es") { try { localStorage.setItem(STORE_KEY, p); } catch (e) {} return p; }
+    } catch (e) {}
+    // 2) previously saved choice
     var saved = null;
     try { saved = localStorage.getItem(STORE_KEY); } catch (e) {}
     if (saved === "en" || saved === "es") return saved;
-    return "es"; // Spanish is the default language (Panama market)
+    // 3) default: Spanish (Panama market)
+    return "es";
   }
 
   var state = { lang: detect() };
