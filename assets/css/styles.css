@@ -162,8 +162,9 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height
 .btn--dark:hover { background: #000; transform: translateY(-2px); box-shadow: var(--shadow-md); }
 .btn--ghost { background: transparent; color: var(--ink); border-color: var(--line-strong); }
 .btn--ghost:hover { border-color: var(--ink); transform: translateY(-2px); background: rgba(23,21,15,.03); }
-.btn--light { background: var(--on-char); color: var(--ink); }
-.btn--light:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); background: #fff; }
+/* always a light pill on a dark band, so its text is pinned dark in both themes */
+.btn--light { background: #F3EFE6; color: #17150F; }
+.btn--light:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); background: #fff; color: #17150F; }
 .btn--on-dark { background: transparent; color: var(--on-char); border-color: rgba(255,255,255,.28); }
 .btn--on-dark:hover { border-color: var(--on-char); background: rgba(255,255,255,.06); transform: translateY(-2px); }
 .btn--sm { padding: .68em 1.15em; font-size: .86rem; }
@@ -185,6 +186,8 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height
 .badge--stock .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--forest); box-shadow: 0 0 0 3px rgba(58,90,64,.16); }
 .badge--import { background: #F3ECDD; color: #8A6D2E; }
 .badge--import .dot { width: 6px; height: 6px; border-radius: 50%; background: #B8891F; }
+.badge--out { background: rgba(23,21,15,.07); color: var(--muted); }
+.badge--out .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--muted-2); }
 .badge--soft { background: rgba(23,21,15,.05); color: var(--muted); }
 
 /* ==================================================================== HEADER */
@@ -409,8 +412,12 @@ body.nav-open .nav-toggle span::after { transform: translateY(-6px) rotate(-45de
 }
 .modal.is-open .modal__panel { transform: translate(-50%, -50%); opacity: 1; }
 .modal__grid { display: grid; grid-template-columns: 1.05fr .95fr; }
-.modal__media { background: radial-gradient(80% 70% at 50% 42%, var(--stage-a), var(--stage-b)); display: grid; place-items: center; padding: 34px; position: relative; }
-.modal__media img { filter: drop-shadow(14px 18px 20px rgba(20,16,10,.24)); }
+/* media box never grows with its content: the image is absolutely positioned
+   and contained, so portrait and landscape photos both centre identically. */
+.modal__media { background: radial-gradient(80% 70% at 50% 42%, var(--stage-a), var(--stage-b));
+  position: relative; overflow: hidden; min-height: 260px; }
+.modal__media img { position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: contain; padding: 30px; filter: drop-shadow(14px 18px 20px rgba(20,16,10,.24)); }
 .modal__body { padding: clamp(24px, 3vw, 40px); }
 .modal__close { position: absolute; top: 16px; right: 16px; width: 42px; height: 42px; border-radius: 50%; background: var(--paper); box-shadow: var(--shadow-sm); display: grid; place-items: center; z-index: 5; transition: transform .25s, background-color .25s; }
 .modal__close:hover { transform: rotate(90deg); background: #fff; }
@@ -492,6 +499,79 @@ body.nav-open .nav-toggle span::after { transform: translateY(-6px) rotate(-45de
   .grid--bikes { grid-template-columns: 1fr; }
   .parts-grid { grid-template-columns: 1fr; }
 }
+
+/* ====================================================== out-of-stock cards */
+.bike-card.is-out .bike-card__img { opacity: .72; filter: drop-shadow(10px 14px 14px rgba(20,16,10,.18)) saturate(.85); }
+.bike-card.is-out:hover .bike-card__img { opacity: .9; }
+:root[data-theme="dark"] .badge--out { background: rgba(255,255,255,.08); color: var(--muted); }
+
+/* ======================================================= part photo viewer */
+.part-card { position: relative; }
+.part-card.is-clickable { cursor: pointer; }
+/* the title button stretches over the whole card, so the full square is clickable */
+.part-card__open {
+  font: inherit; color: inherit; text-align: left; padding: 0; background: none;
+  border: 0; cursor: pointer;
+}
+.part-card__open::after { content: ""; position: absolute; inset: 0; z-index: 1; border-radius: var(--r-lg); }
+.part-card__open:focus-visible::after { outline: 2.5px solid var(--red); outline-offset: -3px; }
+.part-card__open:focus-visible { outline: none; }
+.part-card:hover .part-card__open { color: var(--red); }
+/* the WhatsApp button must stay above the stretched overlay */
+.part-card__wa { position: relative; z-index: 2; }
+
+.part-card__img { position: relative; }
+.part-card__count {
+  position: absolute; z-index: 2; top: 10px; right: 10px;
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 5px 9px; border-radius: var(--r-pill);
+  background: var(--paper); border: 1px solid var(--line);
+  color: var(--muted); font-size: .74rem; font-weight: 700; line-height: 1;
+  box-shadow: var(--shadow-sm); transition: color .25s, border-color .25s;
+}
+.part-card__count svg { width: 14px; height: 14px; }
+.part-card:hover .part-card__count { color: var(--ink); border-color: var(--line-strong); }
+
+.pthumbs { display: flex; flex-wrap: wrap; gap: 10px; }
+.pthumb {
+  width: 68px; height: 68px; border-radius: var(--r-sm); overflow: hidden; padding: 0;
+  border: 1.5px solid var(--line); background: var(--stage-b);
+  transition: border-color .22s var(--ease), transform .22s var(--ease);
+}
+.pthumb img { width: 100%; height: 100%; object-fit: cover; }
+.pthumb:hover { transform: translateY(-2px); border-color: var(--line-strong); }
+.pthumb.is-on { border-color: var(--ink); }
+.modal--part { width: min(760px, 94vw); }
+.modal--part .modal__grid { grid-template-columns: 1fr; }
+.modal--part .modal__media { aspect-ratio: 4 / 3; min-height: 0; }
+.modal--part .modal__media img { padding: 22px; filter: none; }
+
+/* ============================================================== showroom */
+.shots { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: clamp(14px, 1.8vw, 22px); }
+/* every tile is the same 3:4 box, so rows always line up exactly */
+.shot { margin: 0; border-radius: var(--r-lg); overflow: hidden; background: var(--stage-b);
+  border: 1px solid var(--line); box-shadow: var(--shadow-sm);
+  aspect-ratio: 3 / 4; position: relative; }
+.shot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: transform .55s var(--ease); }
+.shot:hover img { transform: scale(1.05); }
+
+/* dark feature band so the real showroom photos carry the page */
+.showroom-band { background: var(--char); color: var(--on-char); }
+.showroom-band h2 { color: #fff; }
+.showroom-band .lead { color: var(--on-char-mut); }
+.showroom-band .eyebrow { color: #F1B3B8; }
+.showroom-band .eyebrow::before { background: var(--red); }
+.showroom-band .shot { border-color: var(--char-line); background: #1b1710; box-shadow: none; }
+.showroom-band .link-arrow { color: var(--on-char); }
+.showroom-band .link-arrow:hover { color: #fff; }
+@media (max-width: 520px) {
+  .shots { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+}
+
+/* ============================================ render-cost trim (perf only) */
+.section, .marquee, .site-footer { content-visibility: auto; contain-intrinsic-size: auto 600px; }
+.hero, .page-hero { content-visibility: visible; }
 
 /* ============================================================ theme toggle */
 .theme-toggle {

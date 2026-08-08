@@ -27,6 +27,7 @@ window.VOLTRAX.i18n = {
   "onboard.light":   { en: "Light", es: "Claro" },
   "onboard.dark":    { en: "Dark", es: "Oscuro" },
   "onboard.continue":{ en: "Continue", es: "Continuar" },
+  "onboard.discount":{ en: "WhatsApp us rn for a discount", es: "Escríbenos por WhatsApp y pide tu descuento" },
   "theme.toggle":    { en: "Toggle light / dark mode", es: "Cambiar modo claro / oscuro" },
 
   /* ---- generic CTAs ---- */
@@ -43,13 +44,14 @@ window.VOLTRAX.i18n = {
   "cta.emailInstead":  { en: "or email us", es: "o escríbenos un correo" },
   "badge.inStock":     { en: "In stock", es: "En stock" },
   "badge.import":      { en: "Import", es: "Importación" },
+  "badge.outOfStock":  { en: "Out of stock", es: "Agotado" },
 
   /* ---- home: hero ---- */
   "hero.eyebrow":  { en: "Electric motorcycles · Panama", es: "Motos eléctricas · Panamá" },
   "hero.title":    { en: "The electric ride, done properly.", es: "La moto eléctrica, bien hecha." },
   "hero.sub":      { en: "Voltrax EV is Panama's home for premium electric motorcycles. Sur-Ron, E Ride Pro and more, in stock and ready to ride from Costa del Este.",
                      es: "Voltrax EV es la casa de las motos eléctricas premium en Panamá. Sur-Ron, E Ride Pro y más, en stock y listas para rodar desde Costa del Este." },
-  "hero.stat1n":   { en: "5", es: "5" },
+  "hero.stat1n":   { en: "3", es: "3" },
   "hero.stat1l":   { en: "Models in stock", es: "Modelos en stock" },
   "hero.stat2n":   { en: "60 mph", es: "60 mph" },
   "hero.stat2l":   { en: "Top speed available", es: "Velocidad máx. disponible" },
@@ -157,9 +159,10 @@ window.VOLTRAX.i18n = {
   "filters.offroad":   { en: "Off-road", es: "Todoterreno" },
   "filters.mini":      { en: "Mini", es: "Mini" },
   "filters.supermoto": { en: "Supermoto", es: "Supermoto" },
-  "filters.availAll":  { en: "In stock & import", es: "Stock e importación" },
+  "filters.availAll":  { en: "All availability", es: "Toda disponibilidad" },
   "filters.inStock":   { en: "In stock", es: "En stock" },
   "filters.import":    { en: "Import", es: "Importación" },
+  "filters.outOfStock":{ en: "Out of stock", es: "Agotado" },
   "filters.sortLabel": { en: "Sort", es: "Ordenar" },
   "sort.featured":     { en: "Featured", es: "Destacadas" },
   "sort.speed":        { en: "Top speed", es: "Velocidad máx." },
@@ -177,6 +180,18 @@ window.VOLTRAX.i18n = {
   "modal.source":    { en: "Specs source:", es: "Fuente de la ficha:" },
   "modal.availIn":   { en: "In stock in Costa del Este", es: "En stock en Costa del Este" },
   "modal.availImp":  { en: "Available by special order", es: "Disponible por pedido especial" },
+  "modal.availOut":  { en: "Currently out of stock", es: "Agotado por el momento" },
+  "modal.askStock":  { en: "Ask about availability", es: "Consultar disponibilidad" },
+  "modal.photos":    { en: "Photos", es: "Fotos" },
+
+  /* ---- showroom ---- */
+  "showroom.eyebrow": { en: "Our showroom", es: "Nuestro showroom" },
+  "showroom.title":   { en: "Come see it in person.", es: "Ven a verlo en persona." },
+  "showroom.sub":     { en: "Our space in Rada Plaza, Costa del Este. Bikes on the floor, parts on the shelf, and somewhere comfortable to sit while we talk it through.",
+                        es: "Nuestro espacio en Rada Plaza, Costa del Este. Motos en el salón, repuestos en el estante y un lugar cómodo para conversar." },
+  "showroom.bikesTitle": { en: "The bikes on our floor", es: "Las motos en nuestro salón" },
+  "showroom.bikesSub":   { en: "Real photos of the E Ride Pro line-up at the Voltrax showroom.",
+                           es: "Fotos reales de la gama E Ride Pro en el showroom de Voltrax." },
 
   /* ---- parts page ---- */
   "partspage.eyebrow": { en: "Parts & accessories", es: "Repuestos y accesorios" },

@@ -93,18 +93,28 @@
     return '<div class="spec-item"><div class="k">' + pick(h.k) + '</div><div class="v">' + pick(h.v) + "</div></div>";
   }
 
-  function bikeCard(bike) {
-    var inStock = bike.availability === "in-stock";
-    var badge = inStock
-      ? '<span class="badge badge--stock"><span class="dot"></span>' + i18n.t("badge.inStock") + "</span>"
-      : '<span class="badge badge--import"><span class="dot"></span>' + i18n.t("badge.import") + "</span>";
+  /* availability badge — in-stock | import | out-of-stock */
+  function availBadge(availability) {
+    if (availability === "in-stock") {
+      return '<span class="badge badge--stock"><span class="dot"></span>' + i18n.t("badge.inStock") + "</span>";
+    }
+    if (availability === "out-of-stock") {
+      return '<span class="badge badge--out"><span class="dot"></span>' + i18n.t("badge.outOfStock") + "</span>";
+    }
+    return '<span class="badge badge--import"><span class="dot"></span>' + i18n.t("badge.import") + "</span>";
+  }
 
-    var card = el("article", "bike-card reveal");
+  function bikeCard(bike) {
+    var badge = availBadge(bike.availability);
+    var card = el("article", "bike-card" + (bike.availability === "out-of-stock" ? " is-out" : "") + " reveal");
     card.innerHTML =
       '<div class="bike-card__stage">' +
         '<div class="bike-card__badges">' + badge + "</div>" +
         '<img class="bike-card__img" loading="lazy" decoding="async" width="800" height="516" ' +
-          'src="' + IMG + "bikes/" + bike.img + '@800.webp" alt="' + pick(bike.imgAlt) + '">' +
+          'src="' + IMG + "bikes/" + bike.img + '@800.webp"' +
+          ' srcset="' + IMG + "bikes/" + bike.img + "@500.webp 500w, " + IMG + "bikes/" + bike.img + '@800.webp 800w"' +
+          ' sizes="(max-width: 420px) 92vw, (max-width: 900px) 46vw, 30vw"' +
+          ' alt="' + pick(bike.imgAlt) + '">' +
       "</div>" +
       '<div class="bike-card__body">' +
         '<div class="bike-card__title"><h3>' + bike.brand + " " + bike.name + "</h3></div>" +
@@ -112,13 +122,19 @@
         '<div class="bike-card__spec">' + bike.highlights.map(highlightHTML).join("") + "</div>" +
         '<div class="bike-card__foot">' +
           '<button class="btn btn--dark btn--sm" data-specs="' + bike.id + '">' + i18n.t("cta.viewSpecs") + "</button>" +
-          '<a class="btn btn--primary btn--sm" href="' + waLink(bikeMsg(bike)) + '" target="_blank" rel="noopener">' + i18n.t("cta.inquireBike") + "</a>" +
+          '<a class="btn btn--primary btn--sm" href="' + waLink(bikeMsg(bike)) + '" target="_blank" rel="noopener">' +
+            (bike.availability === "out-of-stock" ? i18n.t("modal.askStock") : i18n.t("cta.inquireBike")) + "</a>" +
         "</div>" +
       "</div>";
     return card;
   }
 
   function bikeMsg(bike) {
+    if (bike.availability === "out-of-stock") {
+      return i18n.lang === "es"
+        ? "Hola Voltrax, la " + bike.brand + " " + bike.name + " aparece agotada. ¿Cuándo vuelve a estar disponible?"
+        : "Hi Voltrax, the " + bike.brand + " " + bike.name + " shows as out of stock. When will it be available again?";
+    }
     return i18n.lang === "es"
       ? "Hola Voltrax, me interesa la " + bike.brand + " " + bike.name + ". ¿Está disponible?"
       : "Hi Voltrax, I'm interested in the " + bike.brand + " " + bike.name + ". Is it available?";
@@ -243,10 +259,11 @@
     img.src = IMG + "bikes/" + bike.img + ".webp";
     img.alt = pick(bike.imgAlt);
 
-    var inStock = bike.availability === "in-stock";
-    var badge = inStock
+    var badge = bike.availability === "in-stock"
       ? '<span class="badge badge--stock"><span class="dot"></span>' + i18n.t("modal.availIn") + "</span>"
-      : '<span class="badge badge--import"><span class="dot"></span>' + i18n.t("modal.availImp") + "</span>";
+      : bike.availability === "out-of-stock"
+        ? '<span class="badge badge--out"><span class="dot"></span>' + i18n.t("modal.availOut") + "</span>"
+        : '<span class="badge badge--import"><span class="dot"></span>' + i18n.t("modal.availImp") + "</span>";
 
     var finishes = "";
     if (bike.finishes && bike.finishes.length) {
@@ -273,11 +290,13 @@
         '<a class="btn btn--ghost" href="' + mailLink("Voltrax EV — " + bike.brand + " " + bike.name, bikeMsg(bike)) + '">' + i18n.t("cta.emailInstead") + "</a>" +
       "</div>";
 
+    m.querySelector(".modal__panel").classList.remove("modal--part");
     lastFocus = document.activeElement;
     m.classList.add("is-open");
     document.body.style.overflow = "hidden";
     m.querySelector(".modal__close").focus();
     m.dataset.bikeId = id;
+    m.dataset.partId = "";
   }
 
   function closeModal() {
@@ -295,22 +314,96 @@
   });
 
   /* ---------------------------------------------------------------- parts */
-  function partCard(p) {
-    var msg = i18n.lang === "es"
+  function partMsg(p) {
+    return i18n.lang === "es"
       ? "Hola Voltrax, quiero preguntar por este repuesto: " + pick(p.name) + "."
       : "Hi Voltrax, I'd like to ask about this part: " + pick(p.name) + ".";
-    var card = el("article", "part-card reveal");
+  }
+
+  function partCard(p) {
+    var count = partImages(p).length;
+    var card = el("article", "part-card reveal is-clickable");
     card.innerHTML =
-      '<div class="part-card__img"><img loading="lazy" decoding="async" width="500" height="375" ' +
+      '<div class="part-card__img">' +
+        (count > 1 ? '<span class="part-card__count" aria-hidden="true">' +
+          '<svg viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="13" height="12" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 4h11a2 2 0 0 1 2 2v9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>' +
+          count + "</span>" : "") +
+        '<img loading="lazy" decoding="async" width="500" height="375" ' +
         'src="' + IMG + "parts/" + p.img + '@500.webp" alt="' + pick(p.name) + '"></div>' +
       '<div class="part-card__body">' +
         '<span class="part-card__brand">' + p.brand + "</span>" +
-        "<h3>" + pick(p.name) + "</h3>" +
+        // the button's ::after covers the whole card, so any click on the card opens it
+        '<h3><button class="part-card__open" data-part="' + p.id + '">' + pick(p.name) + "</button></h3>" +
         "<p>" + pick(p.desc) + "</p>" +
-        '<a class="btn btn--ghost btn--sm" href="' + waLink(msg) + '" target="_blank" rel="noopener">' + i18n.t("part.inquire") + "</a>" +
+        '<a class="btn btn--ghost btn--sm part-card__wa" href="' + waLink(partMsg(p)) + '" target="_blank" rel="noopener">' + i18n.t("part.inquire") + "</a>" +
       "</div>";
     return card;
   }
+
+  /* every part opens a viewer: cover first, then any supporting photos */
+  function partImages(p) {
+    var list = [{
+      full: IMG + "parts/" + p.img + ".webp",
+      thumb: IMG + "parts/" + p.img + "@500.webp"
+    }];
+    if (p.gal && p.galN) {
+      for (var i = 1; i <= p.galN; i++) {
+        list.push({
+          full: IMG + "parts/g/" + p.gal + "-" + i + ".webp",
+          thumb: IMG + "parts/g/" + p.gal + "-" + i + "@420.webp"
+        });
+      }
+    }
+    return list;
+  }
+
+  /* part photo viewer — reuses the existing modal shell */
+  function openPartModal(id) {
+    var p = V.parts.filter(function (x) { return x.id === id; })[0];
+    if (!p) return;
+    buildModal();
+    var m = document.getElementById("bikeModal");
+    var img = document.getElementById("modalImg");
+    var shots = partImages(p);
+    img.src = shots[0].full;
+    img.alt = pick(p.name);
+
+    var thumbs = shots.length < 2 ? "" : shots.map(function (s, i) {
+      return '<button class="pthumb' + (i === 0 ? " is-on" : "") + '" data-src="' + s.full + '">' +
+        '<img loading="lazy" decoding="async" src="' + s.thumb + '" alt=""></button>';
+    }).join("");
+
+    document.getElementById("modalBody").innerHTML =
+      '<div class="eyebrow" style="margin-bottom:10px">' + p.brand + "</div>" +
+      '<h2 class="h2" id="bikeModalTitle" style="margin-bottom:8px">' + pick(p.name) + "</h2>" +
+      '<p class="muted" style="margin-bottom:18px">' + pick(p.desc) + "</p>" +
+      (thumbs ? '<div class="pthumbs">' + thumbs + "</div>" : "") +
+      '<div class="btn-row" style="margin-top:22px">' +
+        '<a class="btn btn--primary" href="' + waLink(partMsg(p)) + '" target="_blank" rel="noopener">' + ICON.wa + i18n.t("part.inquire") + "</a>" +
+      "</div>";
+
+    m.querySelector(".modal__panel").classList.add("modal--part");
+    lastFocus = document.activeElement;
+    m.classList.add("is-open");
+    document.body.style.overflow = "hidden";
+    m.querySelector(".modal__close").focus();
+    m.dataset.bikeId = "";
+    m.dataset.partId = id;
+  }
+
+  /* thumbnail swap inside the part viewer */
+  document.addEventListener("click", function (e) {
+    var t = e.target.closest(".pthumb");
+    if (!t) return;
+    var img = document.getElementById("modalImg");
+    if (img) img.src = t.getAttribute("data-src");
+    t.parentNode.querySelectorAll(".pthumb").forEach(function (b) { b.classList.toggle("is-on", b === t); });
+  });
+
+  document.addEventListener("click", function (e) {
+    var t = e.target.closest("[data-part]");
+    if (t) { e.preventDefault(); openPartModal(t.getAttribute("data-part")); }
+  });
 
   function renderParts() {
     var full = document.getElementById("partsGrid");
@@ -333,6 +426,26 @@
       });
       revealNow(teaser);
     }
+  }
+
+  /* ------------------------------------------------------------ showroom */
+  function renderShowroom() {
+    document.querySelectorAll("[data-showroom]").forEach(function (grid) {
+      var only = grid.getAttribute("data-showroom"); // "eride" | "all"
+      var list = (V.showroom || []).filter(function (s) {
+        return only === "eride" ? s.eride : true;
+      });
+      grid.innerHTML = "";
+      list.forEach(function (s, i) {
+        var fig = el("figure", "shot reveal");
+        fig.setAttribute("data-delay", String((i % 4) + 1));
+        fig.innerHTML =
+          '<img loading="lazy" decoding="async" width="620" height="827" ' +
+          'src="' + IMG + "showroom/" + s.img + '@620.webp" alt="' + pick(s.alt) + '">';
+        grid.appendChild(fig);
+      });
+      revealNow(grid);
+    });
   }
 
   /* --------------------------------------------------------- advantages */
@@ -439,6 +552,12 @@
   }
 
   /* ----------------------------------------------------- onboarding popup */
+  function discountMsg() {
+    return i18n.lang === "es"
+      ? "¡Hola! Visité su sitio web y usé la herramienta de WhatsApp. Me interesa obtener un descuento."
+      : "Hey there! I visited your website and used the WhatsApp tool. I'm interested in getting a discount.";
+  }
+
   function syncOnboard(pop) {
     pop.querySelectorAll("[data-onboard-lang]").forEach(function (b) {
       b.setAttribute("aria-pressed", String(b.dataset.onboardLang === i18n.lang));
@@ -468,6 +587,15 @@
     });
     var done = pop.querySelector("[data-onboard-done]");
     if (done) done.addEventListener("click", function () { closeOnboard(pop); });
+
+    /* WhatsApp discount CTA — same wa.me system as every other button */
+    var promo = pop.querySelector("[data-onboard-wa]");
+    if (promo) {
+      var setPromo = function () { promo.href = waLink(discountMsg()); };
+      setPromo();
+      document.addEventListener("voltrax:lang", setPromo);
+      promo.addEventListener("click", function () { closeOnboard(pop); });
+    }
     pop.querySelector(".onboard__scrim").addEventListener("click", function () { closeOnboard(pop); });
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && pop.classList.contains("is-open")) closeOnboard(pop);
@@ -487,6 +615,7 @@
     decorateWhyIcons();
     renderFeatured();
     renderParts();
+    renderShowroom();
     initBikeFilters();
     renderBikesPage();
     initImportCta();
@@ -502,9 +631,13 @@
     document.addEventListener("voltrax:lang", function () {
       renderFeatured();
       renderParts();
+      renderShowroom();
       renderBikesPage();
       var m = document.getElementById("bikeModal");
-      if (m && m.classList.contains("is-open")) openBikeModal(m.dataset.bikeId);
+      if (m && m.classList.contains("is-open")) {
+        if (m.dataset.partId) openPartModal(m.dataset.partId);
+        else if (m.dataset.bikeId) openBikeModal(m.dataset.bikeId);
+      }
     });
   }
 
