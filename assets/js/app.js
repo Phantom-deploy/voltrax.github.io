@@ -566,12 +566,57 @@
       b.setAttribute("aria-pressed", String(b.dataset.themeOpt === currentTheme()));
     });
   }
+  /* briefly ring the header language + theme controls so it is clear the
+     choice still lives up there and can be changed at any time */
+  function hintHeaderControls() {
+    [".lang-toggle", ".theme-toggle"].forEach(function (sel) {
+      var el = document.querySelector(sel);
+      if (!el) return;
+      el.classList.add("is-hinted");
+      setTimeout(function () { el.classList.remove("is-hinted"); }, 3200);
+    });
+  }
+
+  /* the card flies up to the header controls, then the popup closes */
   function closeOnboard(pop) {
+    if (pop.dataset.closing === "1") return;
+    pop.dataset.closing = "1";
+
     try { localStorage.setItem("voltrax-onboarded", "1"); } catch (e) {}
-    i18n.setLang(i18n.lang);          // persist language (default es if untouched)
-    applyTheme(currentTheme());        // persist theme (default light if untouched)
-    pop.classList.remove("is-open");
-    document.body.style.overflow = "";
+    i18n.setLang(i18n.lang);      // persist language (default es if untouched)
+    applyTheme(currentTheme());   // persist theme (default light if untouched)
+
+    var card = pop.querySelector(".onboard__card");
+    var target = document.querySelector(".lang-toggle") || document.querySelector(".theme-toggle");
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    var finish = function () {
+      pop.classList.remove("is-open", "is-leaving");
+      pop.dataset.closing = "";
+      if (card) {
+        card.classList.remove("is-leaving");
+        card.style.transition = ""; card.style.transform = ""; card.style.opacity = "";
+      }
+      document.body.style.overflow = "";
+      hintHeaderControls();
+    };
+
+    if (!card || !target || reduce) { finish(); return; }
+
+    var c = card.getBoundingClientRect();
+    var t = target.getBoundingClientRect();
+    var dx = (t.left + t.width / 2) - (c.left + c.width / 2);
+    var dy = (t.top + t.height / 2) - (c.top + c.height / 2);
+
+    pop.classList.add("is-leaving");
+    card.classList.add("is-leaving");
+    card.style.transform = "translate(-50%, -50%)";   // commit the start value
+    void card.offsetWidth;                             // force reflow (no rAF needed)
+    card.style.transition = "transform .6s cubic-bezier(.45,0,.15,1), opacity .45s ease .16s";
+    card.style.transform = "translate(-50%, -50%) translate(" + dx + "px, " + dy + "px) scale(.10)";
+    card.style.opacity = "0";
+
+    setTimeout(finish, 640);
   }
   function initOnboarding() {
     var onboarded = false;

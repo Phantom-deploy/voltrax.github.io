@@ -30,6 +30,15 @@ window.VOLTRAX.i18n = {
   "onboard.discount":{ en: "WhatsApp us rn for a discount", es: "Escríbenos por WhatsApp y pide tu descuento" },
   "theme.toggle":    { en: "Toggle light / dark mode", es: "Cambiar modo claro / oscuro" },
 
+  /* ---- quick section nav (below the hero) ---- */
+  "quick.label":    { en: "Jump to a section", es: "Ir a una sección" },
+  "quick.inStock":  { en: "In stock", es: "En stock" },
+  "quick.allBikes": { en: "All bikes", es: "Todas las motos" },
+  "quick.showroom": { en: "Showroom", es: "Showroom" },
+  "quick.parts":    { en: "Parts", es: "Repuestos" },
+  "quick.import":   { en: "Import", es: "Importación" },
+  "quick.contact":  { en: "Contact", es: "Contacto" },
+
   /* ---- generic CTAs ---- */
   "cta.viewBikes":     { en: "View the lineup", es: "Ver la gama" },
   "cta.exploreBikes":  { en: "Explore all bikes", es: "Ver todas las motos" },
