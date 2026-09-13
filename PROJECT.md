@@ -32,7 +32,7 @@ sitemap.xml robots.txt llms.txt site.webmanifest   SEO / PWA metadata
 Every page loads the same three scripts at the end of `<body>`, in order:
 `data.js` → `i18n.js` → `app.js`. Each `<link>`/`<script>` carries a `?v=N`
 cache-buster — **bump `v` on every page when you edit CSS or JS** (currently
-`v=11`).
+`v=12`).
 
 ## Architecture
 
@@ -73,7 +73,7 @@ cards/grid/filters, bike & part modals, showroom strip, contact form
 and the first-visit onboarding popup (language/theme picker that animates into
 the header controls on close; flag stored as `localStorage["voltrax-onboarded"]`).
 
-**WhatsApp.** Every chat link goes to `wa.me/507601139903`. Dynamic
+**WhatsApp.** Every chat link goes to `wa.me/50760139903`. Dynamic
 messages (bike, part, import, contact form, onboarding discount) are built by
 `waLink()` from `WA_NUMBER` in `app.js`; static buttons, `tel:` links, the
 visible number and the JSON-LD `telephone` are hard-coded in the three HTML

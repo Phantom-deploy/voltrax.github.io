@@ -9,7 +9,7 @@
   var i18n = V.i18nApi;
   var pick = i18n.pick;
 
-  var WA_NUMBER = "507601139903";
+  var WA_NUMBER = "50760139903";
   var EMAIL = "andres@voltrax-ev.com";
   var IMG = "assets/img/";
 
