@@ -32,7 +32,7 @@ sitemap.xml robots.txt llms.txt site.webmanifest   SEO / PWA metadata
 Every page loads the same three scripts at the end of `<body>`, in order:
 `data.js` → `i18n.js` → `app.js`. Each `<link>`/`<script>` carries a `?v=N`
 cache-buster — **bump `v` on every page when you edit CSS or JS** (currently
-`v=10`).
+`v=11`).
 
 ## Architecture
 
@@ -40,6 +40,18 @@ cache-buster — **bump `v` on every page when you edit CSS or JS** (currently
 `.showroom`, `.brands`, `.specLabels`. `app.js` renders cards, grids and modals
 from those arrays into placeholder containers in the HTML. To add or change a
 bike/part, edit `data.js` only — no markup changes needed.
+
+Bike fields that drive the UI: `availability` (`in-stock` | `import` |
+`out-of-stock`) picks the badge and filter; `stock` (unit count) turns the
+badge into "4 en stock" on cards and in the modal; `featured` puts the bike in
+the home "In stock now" grid (bikes.html always shows everything); `sort`
+feeds the top-speed/range/power sort; `source` must link the official
+manufacturer page the specs came from. The hero "models in stock" number is
+counted from this array at runtime.
+
+A bike added to `data.js` still needs matching hand-kept entries in three
+places: the contact-form `<select>` and the JSON-LD offer catalog in
+`index.html`, and the JSON-LD `ItemList` in `bikes.html` (plus `llms.txt`).
 
 **i18n.** Default language is Spanish (`es`); `en` is the alternate. Static copy
 is marked `data-i18n="key"` (text) or `data-i18n-attr="attr:key"` (attributes)
@@ -61,14 +73,23 @@ cards/grid/filters, bike & part modals, showroom strip, contact form
 and the first-visit onboarding popup (language/theme picker that animates into
 the header controls on close; flag stored as `localStorage["voltrax-onboarded"]`).
 
+**WhatsApp.** Every chat link goes to `wa.me/507601139903`. Dynamic
+messages (bike, part, import, contact form, onboarding discount) are built by
+`waLink()` from `WA_NUMBER` in `app.js`; static buttons, `tel:` links, the
+visible number and the JSON-LD `telephone` are hard-coded in the three HTML
+pages and `llms.txt` — change all of them together.
+
 **No network calls at runtime.** The only third-party request is the Google
 Fonts stylesheet (Sora + Manrope, `display=swap`, preconnected).
 
 ## Images
 
-Originals live in `Images/` as large PNGs and are never served. Shipping
+Originals live in `Images/` as large PNGs and are never served (use
+`_` instead of spaces in file and folder names, e.g. `Images/Bikes_v2/`). Shipping
 derivatives go in `assets/img/<group>/` as WebP, with width-suffixed variants
-(`name@500.webp`, `@620`, `@800`) wired up through `srcset`/`sizes`. Keep
+(`name@500.webp`, `@620`, `@800`) wired up through `srcset`/`sizes`. Bike
+cutouts are cropped to the bike with ~3.6% transparent padding and exported at
+1400 / @800 / @500 (the modal uses the 1400 file, cards use @800/@500). Keep
 below-the-fold images `loading="lazy"`; the hero bike is preloaded with
 `fetchpriority="high"` in `<head>`. Always set `width`/`height` attributes so
 nothing shifts while loading.

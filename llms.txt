@@ -1,25 +1,31 @@
 # Voltrax EV
 
-> Concesionario de motos eléctricas premium en Costa del Este, Ciudad de Panamá. Vende y da soporte a Sur-Ron, E-Ride Pro y EBox, con repuestos e importación por pedido especial. Atención principal por WhatsApp. Sitio bilingüe (español predeterminado / inglés).
+> Concesionario de motos eléctricas premium en Costa del Este, Ciudad de Panamá. Vende y da soporte a E-Ride Pro, Sur-Ron, Yozma, Valtinsu y EBox, con repuestos e importación por pedido especial. Atención principal por WhatsApp. Sitio bilingüe (español predeterminado / inglés).
 
 ## Negocio
 - Nombre: Voltrax EV
 - Ubicación: Rada Plaza, Costa del Este, Ciudad de Panamá, Panamá
-- Teléfono / WhatsApp: +507 6013-9901 (https://wa.me/50760139901)
+- Teléfono / WhatsApp: +507 601139903 (https://wa.me/507601139903)
 - Correo: andres@voltrax-ev.com
 - Instagram: https://www.instagram.com/voltrax.ev
 - TikTok: https://www.tiktok.com/@voltrax.ev
 - Idiomas: Español (predeterminado), Inglés
 - Moneda: USD
 
-## Motos eléctricas en stock
-- E-Ride Pro SS 3.0 — 72V 50Ah, 16 kW pico, 60 mph, autonomía de más de 160 km.
-- E-Ride Pro SS 2.0 — 72V 40Ah, 12 kW pico, 60 mph.
-- E-Ride Pro S 16" — 72V 30Ah, 8 kW pico, 49 mph, ruedas de 16".
-
-## Agotadas por el momento (consultar disponibilidad)
-- Sur-Ron Ultra Bee HP — 21 kW pico (Turbo), 511 Nm, batería 74V 60Ah, 59 mph (95 km/h), frenos de 4 pistones.
-- EBox Dragster — mini-moto eléctrica de 72V.
+## Motos eléctricas en stock (unidades)
+- E-Ride Pro 4.0 (1) — 72V 50Ah, 7 kW nominal / 18 kW pico, 60 mph, más de 160 km de autonomía a ritmo suave.
+- Sur-Ron Ultra Bee HP (1) — 21 kW pico (Turbo), 511 Nm, batería 74V 60Ah, 59 mph (95 km/h), frenos de 4 pistones.
+- E-Ride Pro SS 3.0 (1) — 72V 50Ah, 15,8 kW pico, 60 mph, autonomía de más de 160 km.
+- Yozma IN 10 Pro (2) — 60V 27Ah, 5.500 W pico, 220 Nm, 50 mph, hasta 60 mi, ruedas 17"/14".
+- Yozma IN 10 (4) — 48V 23,4Ah, 2.600 W, 146 Nm, 28–40 mph, hasta 53 mi, asiento de 720 mm.
+- Valtinsu EM-5 Pro (1) — 60V 27Ah, 2.500 W nominal / 5.600 W pico, 52 mph, hasta 59 mi, IPX6.
+- E-Ride Pro SS 2.0 (1) — 72V 40Ah, 12 kW pico, 60 mph.
+- E-Ride Pro S 16" (1) — 72V 30Ah, 8 kW pico, 49 mph, ruedas de 16".
+- EBox V3 72RS (1) — pit bike de 72V 25Ah, 6,3 kW pico, 55 mph, 150 mm de recorrido.
+- EBox V3 60R (1) — pit bike de 60V 26Ah, 5,2 kW pico, 53 mph.
+- EBox Dragster RS (1) — mini moto de 72V 25Ah, 6,3 kW pico, 56 mph, horquilla invertida.
+- EBox Dragster 60R (1) — mini moto de 60V 26Ah, 5,2 kW pico, 53 mph.
+- EBox Dragster (1) — mini-moto eléctrica de 72V.
 
 ## Repuestos y accesorios
 Faro LED Squadron (Baja Designs), kit de freno de pie LBX sin cáliper y kit de freno de pie Ultra Bee (Sur-Ron), mejora de frenos Ultra Bee, conjunto de acelerador, mando de luces y bocina, cubierta de ignición, correa de transmisión, estriberas, puños Lock-On (ODI), manillar cromado (ProTaper), funda de asiento (GUTS Racing), guantes de conducción (Fasthouse), bolsa para teléfono, bloqueo de cambio y cámaras de neumático.
@@ -35,4 +41,4 @@ Fotos reales del local en Rada Plaza, Costa del Este: exhibición de la gama E R
 ## Notas
 - Los precios se cotizan bajo consulta por WhatsApp; el sitio no publica precios.
 - Programa de importación: modelos adicionales por pedido especial, con recogida en Voltrax; los tiempos de entrega varían según el fabricante.
-- Todas las especificaciones provienen de material oficial de los fabricantes (Sur-Ron, E-Ride Pro, EBox).
+- Todas las especificaciones provienen de material oficial de los fabricantes (Sur-Ron, E-Ride Pro, Yozma, Valtinsu, EBox).

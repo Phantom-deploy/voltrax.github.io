@@ -9,7 +9,7 @@
   var i18n = V.i18nApi;
   var pick = i18n.pick;
 
-  var WA_NUMBER = "50760139901";
+  var WA_NUMBER = "507601139903";
   var EMAIL = "andres@voltrax-ev.com";
   var IMG = "assets/img/";
 
@@ -93,10 +93,17 @@
     return '<div class="spec-item"><div class="k">' + pick(h.k) + '</div><div class="v">' + pick(h.v) + "</div></div>";
   }
 
+  /* "{n}" in a dictionary string → unit count */
+  function stockText(key, bike) {
+    return i18n.t(key).replace("{n}", bike.stock);
+  }
+
   /* availability badge — in-stock | import | out-of-stock */
-  function availBadge(availability) {
+  function availBadge(bike) {
+    var availability = bike.availability;
     if (availability === "in-stock") {
-      return '<span class="badge badge--stock"><span class="dot"></span>' + i18n.t("badge.inStock") + "</span>";
+      var label = bike.stock ? stockText("badge.inStockN", bike) : i18n.t("badge.inStock");
+      return '<span class="badge badge--stock"><span class="dot"></span>' + label + "</span>";
     }
     if (availability === "out-of-stock") {
       return '<span class="badge badge--out"><span class="dot"></span>' + i18n.t("badge.outOfStock") + "</span>";
@@ -105,7 +112,7 @@
   }
 
   function bikeCard(bike) {
-    var badge = availBadge(bike.availability);
+    var badge = availBadge(bike);
     var card = el("article", "bike-card" + (bike.availability === "out-of-stock" ? " is-out" : "") + " reveal");
     card.innerHTML =
       '<div class="bike-card__stage">' +
@@ -145,7 +152,7 @@
     var grid = document.getElementById("featuredGrid");
     if (!grid) return;
     grid.innerHTML = "";
-    V.bikes.filter(function (b) { return b.availability === "in-stock"; })
+    V.bikes.filter(function (b) { return b.featured && b.availability === "in-stock"; })
       .forEach(function (b, i) {
         var c = bikeCard(b);
         c.setAttribute("data-delay", String((i % 3) + 1));
@@ -260,7 +267,8 @@
     img.alt = pick(bike.imgAlt);
 
     var badge = bike.availability === "in-stock"
-      ? '<span class="badge badge--stock"><span class="dot"></span>' + i18n.t("modal.availIn") + "</span>"
+      ? '<span class="badge badge--stock"><span class="dot"></span>' +
+          (bike.stock ? stockText("modal.availInN", bike) : i18n.t("modal.availIn")) + "</span>"
       : bike.availability === "out-of-stock"
         ? '<span class="badge badge--out"><span class="dot"></span>' + i18n.t("modal.availOut") + "</span>"
         : '<span class="badge badge--import"><span class="dot"></span>' + i18n.t("modal.availImp") + "</span>";
@@ -523,6 +531,12 @@
     });
   }
 
+  /* ---- hero: models in stock (from data) ---- */
+  function initHeroStats() {
+    var n = document.querySelector("[data-stat-models]");
+    if (n) n.textContent = V.bikes.filter(function (b) { return b.availability === "in-stock"; }).length;
+  }
+
   /* ---- year ---- */
   function initYear() {
     var y = document.getElementById("year");
@@ -666,6 +680,7 @@
     initImportCta();
     initForm();
     initYear();
+    initHeroStats();
     initThemeToggle();
     initReveal();
     i18n.setLang(i18n.lang); // paint translations + set toggle state
