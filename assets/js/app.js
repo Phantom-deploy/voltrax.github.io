@@ -799,8 +799,10 @@
     pop.classList.add("is-open");
     setBackgroundInert(pop, true);
     document.body.style.overflow = "hidden";
-    var firstBtn = pop.querySelector("[data-onboard-lang]");
-    if (firstBtn) { try { firstBtn.focus(); } catch (e) {} }
+    // focus the card itself: keeps keyboard/screen-reader context inside the
+    // dialog without a focus ring on "Español" that reads like an error
+    var card = pop.querySelector(".onboard__card");
+    if (card) { card.setAttribute("tabindex", "-1"); try { card.focus({ preventScroll: true }); } catch (e) {} }
   }
 
   /* --------------------------------------------------------------- boot */

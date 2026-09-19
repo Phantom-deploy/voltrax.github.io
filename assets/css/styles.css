@@ -70,6 +70,10 @@
   --shadow-md: 0 6px 20px rgba(23,21,15,.08), 0 2px 6px rgba(23,21,15,.05);
   --shadow-lg: 0 24px 60px rgba(23,21,15,.14), 0 8px 20px rgba(23,21,15,.08);
   --shadow-bike: 34px 40px 44px rgba(20,16,10,.28);
+  /* primary CTA lift: red-tinted on light surfaces only; on dark ones a red
+     blur reads as a glow, so those surfaces remap it to a neutral shadow */
+  --shadow-primary: 0 8px 22px rgba(194,31,46,.24);
+  --shadow-primary-hover: 0 14px 30px rgba(194,31,46,.30);
 
   /* Geometry */
   --r-sm: 10px;
@@ -121,6 +125,11 @@
   --shadow-sm: 0 1px 2px rgba(0,0,0,.4);
   --shadow-md: 0 6px 20px rgba(0,0,0,.45);
   --shadow-lg: 0 24px 60px rgba(0,0,0,.55);
+}
+:root[data-theme="dark"], .hero, .page-hero, .stage-dark, .import, .cta-band,
+.showroom-band, .site-footer {
+  --shadow-primary: 0 8px 20px rgba(0,0,0,.35);
+  --shadow-primary-hover: 0 12px 28px rgba(0,0,0,.45);
 }
 /* smooth theme transition */
 body, .site-header, .bike-card, .part-card, .adv-card, .card-form, .field input,
@@ -193,8 +202,8 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height
   border: 1.5px solid transparent; text-align: center;
 }
 .btn svg { width: 1.1em; height: 1.1em; flex: none; }
-.btn--primary { background: var(--red); color: #fff; box-shadow: 0 8px 22px rgba(194,31,46,.24); }
-.btn--primary:hover { background: var(--red-deep); transform: translateY(-2px); box-shadow: 0 14px 30px rgba(194,31,46,.30); }
+.btn--primary { background: var(--red); color: #fff; box-shadow: var(--shadow-primary); }
+.btn--primary:hover { background: var(--red-deep); transform: translateY(-2px); box-shadow: var(--shadow-primary-hover); }
 .btn--dark { background: var(--ink); color: var(--cream-2); }
 .btn--dark:hover { background: var(--ink-soft); transform: translateY(-2px); box-shadow: var(--shadow-md); }
 .btn--ghost { background: transparent; color: var(--ink); border-color: var(--line-strong); }
@@ -290,9 +299,9 @@ body.nav-open .nav-toggle span::after { transform: translateY(-6px) rotate(-45de
 .hero-stage .disc { position: absolute; width: 78%; aspect-ratio: 1; border-radius: 50%; border: 1px solid var(--char-line); }
 .hero-stage .disc.d2 { width: 96%; opacity: .6; }
 .hero-bike { position: relative; z-index: 2; width: 100%; filter: drop-shadow(28px 30px 30px rgba(0,0,0,.55)); }
-.hero-stats { display: flex; gap: clamp(20px, 4vw, 48px); margin-top: 34px; flex-wrap: wrap; }
-.hero-stat .n { font-family: var(--font-display); font-weight: 800; font-size: clamp(1.5rem, 3vw, 2.1rem); color: #fff; letter-spacing: -.03em; }
-.hero-stat .l { font-size: .82rem; color: var(--on-char-mut); letter-spacing: .04em; }
+.hero-stats { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; column-gap: clamp(20px, 4vw, 48px); margin-top: 34px; }
+.hero-stat .n { font-family: var(--font-display); font-weight: 800; font-size: clamp(1.5rem, 3vw, 2.1rem); color: #fff; letter-spacing: -.03em; white-space: nowrap; }
+.hero-stat .l { font-size: .82rem; color: var(--on-char-mut); letter-spacing: .04em; max-width: 14ch; line-height: 1.35; margin-top: 4px; }
 .hero-scroll { position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%); z-index: 3; color: var(--on-char-mut); font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; display: flex; flex-direction: column; align-items: center; gap: 8px; }
 .hero-scroll .mouse { width: 22px; height: 34px; border: 1.5px solid var(--on-char-mut); border-radius: 12px; position: relative; }
 .hero-scroll .mouse::after { content: ""; position: absolute; top: 6px; left: 50%; transform: translateX(-50%); width: 3px; height: 6px; border-radius: 2px; background: var(--on-char-mut); animation: mouse 1.8s var(--ease) infinite; }
@@ -481,6 +490,9 @@ body.nav-open .nav-toggle span::after { transform: translateY(-6px) rotate(-45de
 
 /* ============================================================== parts grid */
 .parts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: clamp(16px, 2vw, 26px); }
+#partsTeaserGrid { grid-template-columns: repeat(2, 1fr); }
+@media (min-width: 1024px) { #partsTeaserGrid { grid-template-columns: repeat(4, 1fr); } }
+@media (max-width: 520px) { #partsTeaserGrid { grid-template-columns: 1fr; } }
 .part-card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; transition: transform .4s var(--ease), box-shadow .4s var(--ease); display: flex; flex-direction: column; }
 .part-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
 .part-card__img { aspect-ratio: 4/3; background: radial-gradient(74% 66% at 50% 44%, var(--stage-a), var(--stage-b)); display: grid; place-items: center; padding: 12px; overflow: hidden; }
@@ -689,6 +701,7 @@ section[id], div[id].filters { scroll-margin-top: calc(var(--nav-h) + 18px); }
   text-align: center;
 }
 .onboard.is-open .onboard__card { animation: onboardIn .4s var(--ease) both; }
+.onboard__card:focus { outline: none; }
 @keyframes onboardFade { from { opacity: 0; } to { opacity: 1; } }
 @keyframes onboardIn {
   from { opacity: 0; transform: translate(-50%, -46%) scale(.97); }
@@ -765,6 +778,13 @@ section[id], div[id].filters { scroll-margin-top: calc(var(--nav-h) + 18px); }
   .bike-card:active, .part-card:active { transform: scale(.99); }
 }
 
+/* two-column detail modal: the photo column would stretch to the full spec
+   table (1300px+) and centre the bike below the fold, so pin it to the
+   visible panel height instead */
+@media (min-width: 901px) {
+  .modal__panel:not(.modal--part) .modal__media { align-self: start; position: sticky; top: 0;
+    height: 100%; max-height: 90vh; max-height: 90dvh; }
+}
 /* landscape phone: photo beside the specs instead of a full screen above them */
 @media (max-width: 900px) and (orientation: landscape) and (max-height: 540px) {
   .modal__panel { width: 96vw; max-height: 94vh; max-height: 94dvh; }
