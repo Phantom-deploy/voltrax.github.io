@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script>(function(){var d=document.documentElement;d.className+=" js";try{var t=localStorage.getItem("voltrax-theme");if(t==="dark"||t==="light")d.setAttribute("data-theme",t);var l=localStorage.getItem("voltrax-lang");d.setAttribute("lang",(l==="en"||l==="es")?l:"es");}catch(e){d.setAttribute("lang","es");}})();</script>
+  <script>(function(){var d=document.documentElement;d.className+=" js";try{var t=localStorage.getItem("voltrax-theme");if(t!=="dark"&&t!=="light"&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";if(t==="dark"||t==="light")d.setAttribute("data-theme",t);var l=localStorage.getItem("voltrax-lang");d.setAttribute("lang",(l==="en"||l==="es")?l:"es");}catch(e){d.setAttribute("lang","es");}})();</script>
   <title>Motos Eléctricas en Stock en Panamá | E-Ride Pro, Sur-Ron, Yozma, EBox</title>
   <meta name="description" content="Compara las 13 motos eléctricas en stock en Voltrax EV: E-Ride Pro 4.0, SS 3.0, SS 2.0 y S 16, Sur-Ron Ultra Bee HP, Yozma IN 10 Pro e IN 10, Valtinsu EM-5 Pro y EBox V3 y Dragster. Fichas oficiales y consultas por WhatsApp.">
   <meta name="keywords" content="E-Ride Pro 4.0, Sur-Ron Ultra Bee HP, E-Ride Pro SS 3.0, E-Ride Pro SS, Yozma IN 10 Pro, Yozma IN 10, Valtinsu EM-5 Pro, EBox V3 72RS, EBox V3 60R, EBox Dragster RS, EBox Dragster 60R, EBox Dragster, motos eléctricas Panamá, moto eléctrica enduro, electric dirt bike Panamá, ficha técnica Sur-Ron">
@@ -37,7 +37,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/styles.css?v=12">
+  <link rel="stylesheet" href="assets/css/styles.css?v=13">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -73,37 +73,37 @@
   </script>
 </head>
 <body>
-  <a class="skip-link" href="#main">Skip to content</a>
+  <a class="skip-link" href="#main" data-i18n="nav.skip">Saltar al contenido</a>
 
   <header class="site-header">
     <div class="container nav">
-      <a class="brand brand--mark" href="index.html" aria-label="Voltrax EV home">
+      <a class="brand brand--mark" href="index.html" data-i18n-attr="aria-label:a11y.home" aria-label="Voltrax EV, inicio">
         <img src="assets/img/brand/logo-horizontal.webp" alt="VOLTRAX Performance EV" width="320" height="160" decoding="async">
       </a>
-      <nav class="nav-links" aria-label="Primary">
-        <a href="index.html" data-nav="index.html" data-i18n="nav.home">Home</a>
-        <a href="bikes.html" data-nav="bikes.html" data-i18n="nav.bikes">Bikes</a>
-        <a href="parts.html" data-nav="parts.html" data-i18n="nav.parts">Parts</a>
-        <a href="index.html#contact" data-i18n="nav.contact">Contact</a>
+      <nav class="nav-links" data-i18n-attr="aria-label:a11y.navPrimary" aria-label="Principal">
+        <a href="index.html" data-nav="index.html" data-i18n="nav.home">Inicio</a>
+        <a href="bikes.html" data-nav="bikes.html" data-i18n="nav.bikes">Motos</a>
+        <a href="parts.html" data-nav="parts.html" data-i18n="nav.parts">Repuestos</a>
+        <a href="index.html#contact" data-i18n="nav.contact">Contacto</a>
       </nav>
       <div class="nav-right">
-        <button class="theme-toggle" type="button" data-theme-toggle data-i18n-attr="aria-label:theme.toggle" aria-label="Toggle light / dark mode">
+        <button class="theme-toggle" type="button" data-theme-toggle data-i18n-attr="aria-label:theme.toggle" aria-label="Cambiar modo claro / oscuro">
           <svg class="ico-moon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
           <svg class="ico-sun" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.4 1.4M17.6 17.6 19 19M19 5l-1.4 1.4M6.4 17.6 5 19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
         </button>
-        <div class="lang-toggle" role="group" aria-label="Language">
+        <div class="lang-toggle" role="group" data-i18n-attr="aria-label:a11y.language" aria-label="Idioma">
           <button type="button" data-lang="en" data-i18n="lang.en">EN</button>
           <button type="button" data-lang="es" data-i18n="lang.es">ES</button>
         </div>
         <a class="btn btn--primary btn--sm" href="https://wa.me/50760139903" target="_blank" rel="noopener" data-i18n="cta.whatsapp">WhatsApp</a>
-        <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="mobileNav"><span></span></button>
+        <button class="nav-toggle" data-i18n-attr="aria-label:a11y.menu" aria-label="Menú" aria-expanded="false" aria-controls="mobileNav"><span></span></button>
       </div>
     </div>
-    <nav class="nav-mobile" id="mobileNav" aria-label="Mobile">
-      <a href="index.html" data-i18n="nav.home">Home</a>
-      <a href="bikes.html" data-i18n="nav.bikes">Bikes</a>
-      <a href="parts.html" data-i18n="nav.parts">Parts</a>
-      <a href="index.html#contact" data-i18n="nav.contact">Contact</a>
+    <nav class="nav-mobile" id="mobileNav" data-i18n-attr="aria-label:a11y.navMobile" aria-label="Menú móvil">
+      <a href="index.html" data-i18n="nav.home">Inicio</a>
+      <a href="bikes.html" data-i18n="nav.bikes">Motos</a>
+      <a href="parts.html" data-i18n="nav.parts">Repuestos</a>
+      <a href="index.html#contact" data-i18n="nav.contact">Contacto</a>
       <a class="btn btn--primary" href="https://wa.me/50760139903" target="_blank" rel="noopener" data-i18n="cta.whatsapp">WhatsApp</a>
     </nav>
   </header>
@@ -111,42 +111,42 @@
   <main id="main">
     <section class="page-hero">
       <div class="container">
-        <p class="eyebrow" data-i18n="bikespage.eyebrow">The lineup</p>
-        <h1 class="h-display" data-i18n="bikespage.title" style="margin:16px 0 0">Every bike we carry.</h1>
-        <p class="lead" data-i18n="bikespage.sub" style="margin-top:18px"></p>
+        <p class="eyebrow" data-i18n="bikespage.eyebrow">La gama</p>
+        <h1 class="h-display" data-i18n="bikespage.title" style="margin:16px 0 0">Todas nuestras motos.</h1>
+        <p class="lead" data-i18n="bikespage.sub" style="margin-top:18px">Filtra por tipo y disponibilidad, compara las fichas que importan y envía una consulta sobre cualquier modelo en un par de toques.</p>
       </div>
     </section>
 
     <!-- quick section shortcuts -->
-    <nav class="quicknav" data-i18n-attr="aria-label:quick.label" aria-label="Jump to a section">
+    <nav class="quicknav" data-i18n-attr="aria-label:quick.label" aria-label="Ir a una sección">
       <div class="container quicknav__inner">
-        <a class="qbtn" href="#lineup"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M13 2 4.5 13.5H11l-1 8.5L20 10.5H13V2Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span data-i18n="quick.inStock"></span></a>
-        <a class="qbtn" href="#showroom"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5" stroke="currentColor" stroke-width="1.8"/><circle cx="8.5" cy="10" r="1.4" fill="currentColor"/><path d="m4.5 17.5 4.5-3.5 3.5 2.6 3-2.2 4 3.1" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span data-i18n="quick.showroom"></span></a>
-        <a class="qbtn" href="#import"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M3.2 12h17.6M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18Z" stroke="currentColor" stroke-width="1.8"/></svg><span data-i18n="quick.import"></span></a>
-        <a class="qbtn" href="parts.html"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="3.2" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.2 5.2l2.1 2.1M16.7 16.7l2.1 2.1M18.8 5.2l-2.1 2.1M7.3 16.7l-2.1 2.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span data-i18n="quick.parts"></span></a>
-        <a class="qbtn" href="index.html#contact"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 11.8a8 8 0 0 1-11.7 7.1L3.2 20.6l1.7-6A8 8 0 1 1 21 11.8Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span data-i18n="quick.contact"></span></a>
+        <a class="qbtn" href="#lineup"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M13 2 4.5 13.5H11l-1 8.5L20 10.5H13V2Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span data-i18n="quick.inStock">En stock</span></a>
+        <a class="qbtn" href="#showroom"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5" stroke="currentColor" stroke-width="1.8"/><circle cx="8.5" cy="10" r="1.4" fill="currentColor"/><path d="m4.5 17.5 4.5-3.5 3.5 2.6 3-2.2 4 3.1" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span data-i18n="quick.showroom">Showroom</span></a>
+        <a class="qbtn" href="#import"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M3.2 12h17.6M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18Z" stroke="currentColor" stroke-width="1.8"/></svg><span data-i18n="quick.import">Importación</span></a>
+        <a class="qbtn" href="parts.html"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="3.2" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.2 5.2l2.1 2.1M16.7 16.7l2.1 2.1M18.8 5.2l-2.1 2.1M7.3 16.7l-2.1 2.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span data-i18n="quick.parts">Repuestos</span></a>
+        <a class="qbtn" href="index.html#contact"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 11.8a8 8 0 0 1-11.7 7.1L3.2 20.6l1.7-6A8 8 0 1 1 21 11.8Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span data-i18n="quick.contact">Contacto</span></a>
       </div>
     </nav>
 
     <!-- filters -->
     <div class="filters" id="filters">
       <div class="container filters__inner">
-        <div class="chip-group" id="typeChips" role="group" aria-label="Filter by type"></div>
-        <div class="chip-group" id="availChips" role="group" aria-label="Filter by availability">
-          <button class="chip" data-avail="all" aria-pressed="true" data-i18n="filters.availAll">In stock &amp; import</button>
-          <button class="chip" data-avail="in-stock" aria-pressed="false" data-i18n="filters.inStock">In stock</button>
-          <button class="chip" data-avail="import" aria-pressed="false" data-i18n="filters.import">Import</button>
-          <button class="chip" data-avail="out-of-stock" aria-pressed="false" data-i18n="filters.outOfStock">Out of stock</button>
+        <div class="chip-group" id="typeChips" role="group" data-i18n-attr="aria-label:a11y.filterType" aria-label="Filtrar por tipo"></div>
+        <div class="chip-group" id="availChips" role="group" data-i18n-attr="aria-label:a11y.filterAvail" aria-label="Filtrar por disponibilidad">
+          <button class="chip" data-avail="all" aria-pressed="true" data-i18n="filters.availAll">Toda disponibilidad</button>
+          <button class="chip" data-avail="in-stock" aria-pressed="false" data-i18n="filters.inStock">En stock</button>
+          <button class="chip" data-avail="import" aria-pressed="false" data-i18n="filters.import">Importación</button>
+          <button class="chip" data-avail="out-of-stock" aria-pressed="false" data-i18n="filters.outOfStock">Agotado</button>
         </div>
         <div class="filters__spacer"></div>
         <span class="result-count" id="resultCount"></span>
         <div class="select-wrap">
-          <label class="sr-only" for="sortSelect" data-i18n="filters.sortLabel">Sort</label>
+          <label class="sr-only" for="sortSelect" data-i18n="filters.sortLabel">Ordenar</label>
           <select id="sortSelect">
-            <option value="featured" data-i18n="sort.featured">Featured</option>
-            <option value="top" data-i18n="sort.speed">Top speed</option>
-            <option value="range" data-i18n="sort.range">Range</option>
-            <option value="power" data-i18n="sort.power">Power</option>
+            <option value="featured" data-i18n="sort.featured">Destacadas</option>
+            <option value="top" data-i18n="sort.speed">Velocidad máx.</option>
+            <option value="range" data-i18n="sort.range">Autonomía</option>
+            <option value="power" data-i18n="sort.power">Potencia</option>
           </select>
         </div>
       </div>
@@ -154,7 +154,7 @@
 
     <section class="section section--tight" id="lineup" aria-labelledby="lineupHeading">
       <div class="container">
-        <h2 id="lineupHeading" class="sr-only" data-i18n="feat.title">Our lineup</h2>
+        <h2 id="lineupHeading" class="sr-only" data-i18n="feat.title">Llévatela esta semana.</h2>
         <div class="grid grid--bikes" id="bikeGrid"></div>
       </div>
     </section>
@@ -163,9 +163,9 @@
     <section class="section section--tight showroom-band" id="showroom" aria-labelledby="showroomBikesHeading">
       <div class="container">
         <div class="section-head reveal">
-          <p class="eyebrow" data-i18n="showroom.eyebrow">Our showroom</p>
-          <h2 class="h2" id="showroomBikesHeading" data-i18n="showroom.bikesTitle" style="margin-top:14px">The bikes on our floor</h2>
-          <p class="lead" data-i18n="showroom.bikesSub"></p>
+          <p class="eyebrow" data-i18n="showroom.eyebrow">Nuestro showroom</p>
+          <h2 class="h2" id="showroomBikesHeading" data-i18n="showroom.bikesTitle" style="margin-top:14px">Las motos en nuestro salón</h2>
+          <p class="lead" data-i18n="showroom.bikesSub">Fotos reales de la gama E Ride Pro en el showroom de Voltrax.</p>
         </div>
         <div class="shots" data-showroom="eride"></div>
       </div>
@@ -176,21 +176,21 @@
       <div class="container">
         <div class="import reveal">
           <div style="max-width:64ch">
-            <p class="eyebrow" data-i18n="import.eyebrow">Import program</p>
-            <h2 class="h1" data-i18n="import.emptyTitle" style="margin-top:14px">Import catalog</h2>
-            <p class="lead" data-i18n="import.emptyBody" style="margin-top:16px"></p>
+            <p class="eyebrow" data-i18n="import.eyebrow">Programa de importación</p>
+            <h2 class="h1" data-i18n="import.emptyTitle" style="margin-top:14px">Catálogo de importación</h2>
+            <p class="lead" data-i18n="import.emptyBody" style="margin-top:16px">Los modelos de importación se van agregando a medida que se confirma nuestro catálogo de pedido especial. ¿Buscas algo en particular? Pídelo y lo conseguimos.</p>
           </div>
           <div class="steps">
-            <div class="step"><div class="num">1</div><h3 data-i18n="import.s1t">Tell us the model</h3><p data-i18n="import.s1d"></p></div>
-            <div class="step"><div class="num">2</div><h3 data-i18n="import.s2t">We confirm and quote</h3><p data-i18n="import.s2d"></p></div>
-            <div class="step"><div class="num">3</div><h3 data-i18n="import.s3t">Pickup at Voltrax</h3><p data-i18n="import.s3d"></p></div>
+            <div class="step"><div class="num">1</div><h3 data-i18n="import.s1t">Dinos el modelo</h3><p data-i18n="import.s1d">Envíanos la moto que quieres, o cuéntanos cómo ruedas y te sugerimos opciones.</p></div>
+            <div class="step"><div class="num">2</div><h3 data-i18n="import.s2t">Confirmamos y cotizamos</h3><p data-i18n="import.s2d">Verificamos disponibilidad, ficha y precio final antes de acordar nada.</p></div>
+            <div class="step"><div class="num">3</div><h3 data-i18n="import.s3t">Recoge en Voltrax</h3><p data-i18n="import.s3d">Tu moto llega a nuestra sede en Costa del Este, lista para recoger.</p></div>
           </div>
           <p class="import-note">
             <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 8h.01M11 12h1v4h1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <span data-i18n="import.note"></span>
+            <span data-i18n="import.note">Etiquetas que verás en importaciones: “Disponible por pedido especial” e “Importación disponible · recoger en Voltrax.” Los tiempos de entrega varían según el fabricante.</span>
           </p>
           <div class="btn-row" style="margin-top:28px;position:relative;z-index:2">
-            <a class="btn btn--primary" data-import-cta href="https://wa.me/50760139903" target="_blank" rel="noopener" data-i18n="import.cta">Request an import</a>
+            <a class="btn btn--primary" data-import-cta href="https://wa.me/50760139903" target="_blank" rel="noopener" data-i18n="import.cta">Solicitar importación</a>
           </div>
         </div>
       </div>
@@ -202,7 +202,7 @@
       <div class="footer-top">
         <div class="footer-brand">
           <a class="brand" href="index.html"><img src="assets/img/brand/logo@192.webp" alt="" width="40" height="40"><span><b>VOLTRAX</b> EV</span></a>
-          <p data-i18n="footer.tagline">Premium electric motorcycles, sold and supported in Panama.</p>
+          <p data-i18n="footer.tagline">Motos eléctricas premium, vendidas y con soporte en Panamá.</p>
           <div class="socials">
             <a href="https://www.instagram.com/voltrax.ev" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor"/></svg></a>
             <a href="https://www.tiktok.com/@voltrax.ev" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 3c.3 2.1 1.5 3.6 3.5 3.9v2.5c-1.3.1-2.5-.3-3.6-1v6.1a5.5 5.5 0 1 1-5.5-5.5c.3 0 .6 0 .9.1v2.6a2.9 2.9 0 1 0 2 2.8V3h2.7Z"/></svg></a>
@@ -210,19 +210,19 @@
           </div>
         </div>
         <div class="footer-col">
-          <h4 data-i18n="footer.explore">Explore</h4>
-          <a href="index.html" data-i18n="nav.home">Home</a>
-          <a href="bikes.html" data-i18n="nav.bikes">Bikes</a>
-          <a href="parts.html" data-i18n="nav.parts">Parts</a>
-          <a href="index.html#contact" data-i18n="nav.contact">Contact</a>
+          <h2 data-i18n="footer.explore">Explorar</h2>
+          <a href="index.html" data-i18n="nav.home">Inicio</a>
+          <a href="bikes.html" data-i18n="nav.bikes">Motos</a>
+          <a href="parts.html" data-i18n="nav.parts">Repuestos</a>
+          <a href="index.html#contact" data-i18n="nav.contact">Contacto</a>
         </div>
         <div class="footer-col">
-          <h4 data-i18n="footer.visit">Visit</h4>
+          <h2 data-i18n="footer.visit">Visítanos</h2>
           <p>Rada Plaza</p><p>Costa del Este</p><p>Panamá</p>
-          <a href="https://www.google.com/maps/search/?api=1&query=Rada+Plaza+Costa+del+Este+Panama" target="_blank" rel="noopener" data-i18n="cta.getDirections">Get directions</a>
+          <a href="https://www.google.com/maps/search/?api=1&query=Rada+Plaza+Costa+del+Este+Panama" target="_blank" rel="noopener" data-i18n="cta.getDirections">Cómo llegar</a>
         </div>
         <div class="footer-col">
-          <h4 data-i18n="footer.connect">Connect</h4>
+          <h2 data-i18n="footer.connect">Conecta</h2>
           <a href="tel:+50760139903">+507 6013-9903</a>
           <a href="mailto:andres@voltrax-ev.com">andres@voltrax-ev.com</a>
           <a href="https://www.instagram.com/voltrax.ev" target="_blank" rel="noopener">Instagram</a>
@@ -230,8 +230,8 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <p>© <span id="year">2026</span> Voltrax EV. <span data-i18n="footer.rights">All rights reserved.</span></p>
-        <p style="max-width:60ch;color:var(--on-char-mut)" data-i18n="footer.specsNote"></p>
+        <p>© <span id="year">2026</span> Voltrax EV. <span data-i18n="footer.rights">Todos los derechos reservados.</span></p>
+        <p style="max-width:60ch;color:var(--on-char-mut)" data-i18n="footer.specsNote">Las especificaciones provienen de material oficial de los fabricantes y pueden cambiar. Confirma los detalles con Voltrax antes de comprar.</p>
       </div>
     </div>
   </footer>
@@ -242,7 +242,7 @@
     <div class="onboard__card">
       <img class="onboard__logo" src="assets/img/brand/logo@192.webp" alt="Voltrax EV" width="66" height="66">
       <h2 id="onboardTitle" data-i18n="onboard.title">Bienvenido a Voltrax EV</h2>
-      <p data-i18n="onboard.sub">Elige cómo quieres navegar.</p>
+      <p data-i18n="onboard.sub">Elige cómo quieres navegar. Puedes cambiarlo cuando quieras.</p>
       <div class="onboard__group">
         <div class="onboard__label" data-i18n="onboard.langLabel">Idioma</div>
         <div class="seg">
@@ -272,8 +272,8 @@
     </div>
   </div>
 
-  <script src="assets/js/data.js?v=12"></script>
-  <script src="assets/js/i18n.js?v=12"></script>
-  <script src="assets/js/app.js?v=12"></script>
+  <script src="assets/js/data.js?v=13"></script>
+  <script src="assets/js/i18n.js?v=13"></script>
+  <script src="assets/js/app.js?v=13"></script>
 </body>
 </html>

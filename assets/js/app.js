@@ -55,11 +55,15 @@
         var open = document.body.classList.toggle("nav-open");
         toggle.setAttribute("aria-expanded", String(open));
       });
+      var closeNav = function () {
+        document.body.classList.remove("nav-open");
+        toggle.setAttribute("aria-expanded", "false");
+      };
       document.querySelectorAll(".nav-mobile a").forEach(function (a) {
-        a.addEventListener("click", function () {
-          document.body.classList.remove("nav-open");
-          toggle.setAttribute("aria-expanded", "false");
-        });
+        a.addEventListener("click", closeNav);
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && document.body.classList.contains("nav-open")) { closeNav(); toggle.focus(); }
       });
     }
     document.querySelectorAll(".lang-toggle button").forEach(function (b) {
@@ -75,12 +79,20 @@
       items.forEach(function (i) { i.classList.add("in"); });
       return;
     }
+    // anything already in view stays put; only below-the-fold content is hidden,
+    // and only now that this script has actually arrived
+    var vh = window.innerHeight;
+    items.forEach(function (i) {
+      var r = i.getBoundingClientRect();
+      if (r.top < vh && r.bottom > 0) i.classList.add("in");
+    });
+    document.documentElement.classList.add("reveal-on");
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
         if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
       });
     }, { threshold: 0.14, rootMargin: "0px 0px -8% 0px" });
-    items.forEach(function (i) { io.observe(i); });
+    items.forEach(function (i) { if (!i.classList.contains("in")) io.observe(i); });
   }
 
   /* observe newly injected reveal nodes */
@@ -234,6 +246,26 @@
     if (sortSel) sortSel.addEventListener("change", function () { bikeState.sort = sortSel.value; renderBikesPage(); });
   }
 
+  /* ------------------------------------------------------ dialog helpers */
+  /* everything outside an open dialog goes inert: no tabbing or reading
+     behind the scrim. Tab is also wrapped for browsers without inert. */
+  function setBackgroundInert(dialog, on) {
+    Array.prototype.forEach.call(document.body.children, function (n) {
+      if (n === dialog || n.tagName === "SCRIPT") return;
+      if (on) n.setAttribute("inert", ""); else n.removeAttribute("inert");
+    });
+  }
+  function trapTab(dialog, e) {
+    if (e.key !== "Tab") return;
+    var f = Array.prototype.filter.call(
+      dialog.querySelectorAll('a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])'),
+      function (n) { return n.offsetParent !== null; });
+    if (!f.length) return;
+    var first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+
   /* --------------------------------------------------------------- modal */
   var lastFocus = null;
   function buildModal() {
@@ -246,7 +278,7 @@
     m.innerHTML =
       '<div class="modal__scrim" data-close></div>' +
       '<div class="modal__panel">' +
-        '<button class="modal__close" data-close aria-label="Close">' + ICON.close + "</button>" +
+        '<button class="modal__close" type="button" data-close data-i18n-attr="aria-label:modal.close" aria-label="' + i18n.t("modal.close") + '">' + ICON.close + "</button>" +
         '<div class="modal__grid">' +
           '<div class="modal__media"><img id="modalImg" alt="" width="800" height="516"></div>' +
           '<div class="modal__body" id="modalBody"></div>' +
@@ -255,6 +287,15 @@
     document.body.appendChild(m);
     m.addEventListener("click", function (e) { if (e.target.closest("[data-close]")) closeModal(); });
     document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeModal(); });
+    m.addEventListener("keydown", function (e) { trapTab(m, e); });
+  }
+
+  function showModal(m) {
+    if (!m.classList.contains("is-open")) lastFocus = document.activeElement;
+    m.classList.add("is-open");
+    setBackgroundInert(m, true);
+    document.body.style.overflow = "hidden";
+    m.querySelector(".modal__close").focus();
   }
 
   function openBikeModal(id) {
@@ -299,10 +340,7 @@
       "</div>";
 
     m.querySelector(".modal__panel").classList.remove("modal--part");
-    lastFocus = document.activeElement;
-    m.classList.add("is-open");
-    document.body.style.overflow = "hidden";
-    m.querySelector(".modal__close").focus();
+    showModal(m);
     m.dataset.bikeId = id;
     m.dataset.partId = "";
   }
@@ -311,8 +349,9 @@
     var m = document.getElementById("bikeModal");
     if (!m || !m.classList.contains("is-open")) return;
     m.classList.remove("is-open");
+    setBackgroundInert(m, false);
     document.body.style.overflow = "";
-    if (lastFocus) lastFocus.focus();
+    if (lastFocus && document.contains(lastFocus)) lastFocus.focus();
   }
 
   /* click delegation for spec buttons (works for injected cards) */
@@ -377,7 +416,8 @@
     img.alt = pick(p.name);
 
     var thumbs = shots.length < 2 ? "" : shots.map(function (s, i) {
-      return '<button class="pthumb' + (i === 0 ? " is-on" : "") + '" data-src="' + s.full + '">' +
+      return '<button type="button" class="pthumb' + (i === 0 ? " is-on" : "") + '" data-src="' + s.full + '"' +
+        ' aria-pressed="' + (i === 0) + '" aria-label="' + i18n.t("modal.photo") + " " + (i + 1) + '">' +
         '<img loading="lazy" decoding="async" src="' + s.thumb + '" alt=""></button>';
     }).join("");
 
@@ -391,10 +431,7 @@
       "</div>";
 
     m.querySelector(".modal__panel").classList.add("modal--part");
-    lastFocus = document.activeElement;
-    m.classList.add("is-open");
-    document.body.style.overflow = "hidden";
-    m.querySelector(".modal__close").focus();
+    showModal(m);
     m.dataset.bikeId = "";
     m.dataset.partId = id;
   }
@@ -405,7 +442,10 @@
     if (!t) return;
     var img = document.getElementById("modalImg");
     if (img) img.src = t.getAttribute("data-src");
-    t.parentNode.querySelectorAll(".pthumb").forEach(function (b) { b.classList.toggle("is-on", b === t); });
+    t.parentNode.querySelectorAll(".pthumb").forEach(function (b) {
+      b.classList.toggle("is-on", b === t);
+      b.setAttribute("aria-pressed", String(b === t));
+    });
   });
 
   document.addEventListener("click", function (e) {
@@ -495,8 +535,54 @@
     };
     populate();
 
+    /* inline errors: named per field, cleared as soon as the field is fixed */
+    var checks = {
+      name_: function (v) { return v.length >= 2 ? "" : "form.errName"; },
+      contact_: function (v) {
+        var email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+        var phone = (v.match(/\d/g) || []).length >= 7;
+        return email || phone ? "" : (v ? "form.errContactFormat" : "form.errContact");
+      }
+    };
+    function validate(name, show) {
+      var input = form[name];
+      var key = checks[name]((input.value || "").trim());
+      var field = input.closest(".field");
+      var msg = field.querySelector(".field-error");
+      if (!msg) {
+        msg = el("p", "field-error");
+        msg.id = input.id + "-err";
+        msg.setAttribute("aria-live", "polite");
+        field.appendChild(msg);
+      }
+      if (key && show) {
+        msg.setAttribute("data-i18n", key);
+        msg.textContent = i18n.t(key);
+        field.classList.add("is-invalid");
+        input.setAttribute("aria-invalid", "true");
+        input.setAttribute("aria-describedby", msg.id);
+      } else if (!key) {
+        field.classList.remove("is-invalid");
+        input.removeAttribute("aria-invalid");
+        input.removeAttribute("aria-describedby");
+        msg.removeAttribute("data-i18n");
+        msg.textContent = "";
+      }
+      return !key;
+    }
+    Object.keys(checks).forEach(function (name) {
+      form[name].addEventListener("input", function () {
+        if (form[name].closest(".field").classList.contains("is-invalid")) validate(name, true);
+      });
+      form[name].addEventListener("blur", function () {
+        if (form[name].value.trim()) validate(name, true);
+      });
+    });
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
+      var bad = Object.keys(checks).filter(function (n) { return !validate(n, true); });
+      if (bad.length) { form[bad[0]].focus(); return; }
       var name = (form.name_.value || "").trim();
       var contact = (form.contact_.value || "").trim();
       var interestSel = form.interest;
@@ -510,7 +596,9 @@
            "Name: " + name, "Contact: " + contact, "Interested in: " + interest, "Message: " + message];
       var body = lines.filter(function (l) { return l.indexOf(": ") === -1 || l.split(": ")[1]; }).join("\n");
 
-      window.open(waLink(body), "_blank", "noopener");
+      // popup blocked (common in in-app browsers): open WhatsApp in this tab instead
+      var win = window.open(waLink(body), "_blank", "noopener");
+      if (!win) location.href = waLink(body);
     });
 
     var emailBtn = document.getElementById("emailInstead");
@@ -611,6 +699,7 @@
         card.classList.remove("is-leaving");
         card.style.transition = ""; card.style.transform = ""; card.style.opacity = "";
       }
+      setBackgroundInert(pop, false);
       document.body.style.overflow = "";
       hintHeaderControls();
     };
@@ -660,8 +749,11 @@
       if (e.key === "Escape" && pop.classList.contains("is-open")) closeOnboard(pop);
     });
 
+    pop.addEventListener("keydown", function (e) { trapTab(pop, e); });
+
     syncOnboard(pop);
     pop.classList.add("is-open");
+    setBackgroundInert(pop, true);
     document.body.style.overflow = "hidden";
     var firstBtn = pop.querySelector("[data-onboard-lang]");
     if (firstBtn) { try { firstBtn.focus(); } catch (e) {} }

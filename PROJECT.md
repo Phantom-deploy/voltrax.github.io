@@ -58,20 +58,28 @@ is marked `data-i18n="key"` (text) or `data-i18n-attr="attr:key"` (attributes)
 and resolved from the dictionary in `i18n.js`. Data-driven strings use
 `{en, es}` objects resolved via `i18nApi.pick()`. `setLang()` persists to
 `localStorage["voltrax-lang"]`, updates `<html lang>`, and fires a
-`voltrax:lang` event so dynamic sections re-render.
+`voltrax:lang` event so dynamic sections re-render. The HTML fallback text
+inside every `data-i18n` node (and every `data-i18n-attr` value) is the Spanish
+string, so the page reads correctly before or without JS; keep it in sync when
+editing copy.
 
-**Theming.** Light by default; dark via `<html data-theme="dark">`. All colors
+**Theming.** Light by default, or dark when the OS prefers it and no choice is
+stored; dark via `<html data-theme="dark">`, which also sets `color-scheme` so
+native controls follow. All colors
 come from CSS custom properties in `:root`, redefined in the
 `[data-theme="dark"]` block — never hardcode a color in a component rule. An
 inline script in `<head>` applies the stored theme and language *before* first
 paint to avoid a flash.
 
 **app.js modules** (each an `init*`/`render*` function called from `boot()`):
-header scroll state + mobile nav, scroll reveal (IntersectionObserver), bike
+header scroll state + mobile nav, scroll reveal (IntersectionObserver; content
+is only hidden once `app.js` adds `.reveal-on`, so a slow or failed script never
+leaves sections invisible), bike
 cards/grid/filters, bike & part modals, showroom strip, contact form
-(WhatsApp/mailto handoff — no backend), active-nav highlight, theme toggle,
+(inline validation, then WhatsApp/mailto handoff — no backend), active-nav highlight, theme toggle,
 and the first-visit onboarding popup (language/theme picker that animates into
 the header controls on close; flag stored as `localStorage["voltrax-onboarded"]`).
+Open dialogs make the rest of `<body>` `inert` and wrap Tab inside themselves.
 
 **WhatsApp.** Every chat link goes to `wa.me/50760139903`. Dynamic
 messages (bike, part, import, contact form, onboarding discount) are built by
