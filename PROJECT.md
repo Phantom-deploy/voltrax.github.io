@@ -84,6 +84,16 @@ cards/grid/filters, bike & part modals, showroom strip, contact form
 and the first-visit onboarding popup (language/theme picker that animates into
 the header controls on close; flag stored as `localStorage["voltrax-onboarded"]`).
 Open dialogs make the rest of `<body>` `inert` and wrap Tab inside themselves.
+`initWaFab()` injects a floating WhatsApp button for ≤900px screens; it shows
+once the hero is scrolled past and hides while the contact form, CTA band or
+footer is on screen.
+
+**Responsive rules.** On bikes.html the sticky `.filters` bar holds only the
+chips (one swipeable row ≤900px, not sticky on short landscape phones); the
+result count and sort live in `.lineup-bar` above the grid. Touch devices
+(`pointer: coarse`) get 44px targets and ≥16px form text; hover lifts/zooms are
+disabled under `hover: none` in favour of a press state. On landscape phones
+the detail modal lays the photo beside the specs.
 
 **WhatsApp.** Every chat link goes to `wa.me/50760139903`. Dynamic
 messages (bike, part, import, contact form, onboarding discount) are built by

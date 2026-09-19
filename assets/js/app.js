@@ -72,6 +72,40 @@
     });
   }
 
+  /* ------------------------------------------------ floating WhatsApp */
+  /* phones/tablets only (CSS hides it on desktop). Appears once the hero's own
+     CTAs are behind you, and steps aside wherever a WhatsApp action is already
+     on screen (contact form, CTA band, footer) so it never covers one. */
+  function initWaFab() {
+    var fab = el("a", "btn btn--primary wa-fab",
+      ICON.wa + '<span data-i18n="cta.whatsapp">' + i18n.t("cta.whatsapp") + "</span>");
+    fab.href = "https://wa.me/" + WA_NUMBER;
+    fab.target = "_blank";
+    fab.rel = "noopener";
+    document.body.appendChild(fab);
+
+    var hero = document.querySelector(".hero, .page-hero");
+    var past = false, covered = 0;
+    var update = function () { fab.classList.toggle("is-shown", past && covered === 0); };
+    var onScroll = function () {
+      var limit = hero ? hero.offsetTop + hero.offsetHeight * 0.75 : 400;
+      var now = window.scrollY > limit;
+      if (now !== past) { past = now; update(); }
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    if (!("IntersectionObserver" in window)) return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        var was = e.target._fabCover === true;
+        if (e.isIntersecting !== was) { covered += e.isIntersecting ? 1 : -1; e.target._fabCover = e.isIntersecting; }
+      });
+      update();
+    });
+    document.querySelectorAll("#inquiryForm, .cta-band, .site-footer").forEach(function (n) { io.observe(n); });
+  }
+
   /* -------------------------------------------------------------- reveal */
   function initReveal() {
     var items = document.querySelectorAll(".reveal");
@@ -762,6 +796,7 @@
   /* --------------------------------------------------------------- boot */
   function boot() {
     initHeader();
+    initWaFab();
     initActiveNav();
     decorateWhyIcons();
     renderFeatured();

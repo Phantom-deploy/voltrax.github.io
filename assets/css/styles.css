@@ -368,6 +368,7 @@ body.nav-open .nav-toggle span::after { transform: translateY(-6px) rotate(-45de
 .contact-item .ico svg { width: 20px; height: 20px; }
 .contact-item .k { font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted-2); }
 .contact-item a, .contact-item p { font-weight: 600; font-size: 1.02rem; }
+.contact-item a:not(.link-arrow) { display: block; width: fit-content; }
 .contact-item a:hover { color: var(--red-text); }
 
 .card-form { background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-xl); padding: clamp(24px, 3vw, 38px); box-shadow: var(--shadow-md); }
@@ -414,11 +415,14 @@ body.nav-open .nav-toggle span::after { transform: translateY(-6px) rotate(-45de
 .chip { padding: .5em 1em; border-radius: var(--r-pill); border: 1.5px solid var(--line-strong); font-weight: 600; font-size: .9rem; color: var(--ink-soft); background: var(--paper); transition: all .25s var(--ease); }
 .chip:hover { border-color: var(--ink); }
 .chip[aria-pressed="true"] { background: var(--ink); color: var(--cream-2); border-color: var(--ink); }
-.filters__spacer { flex: 1; }
 .select-wrap { position: relative; }
 .select-wrap select { appearance: none; padding: .58em 2.4em .58em 1em; border-radius: var(--r-pill); border: 1.5px solid var(--line-strong); background: var(--paper); color: var(--ink); font-weight: 600; font-size: .9rem; cursor: pointer; }
 .select-wrap::after { content: ""; position: absolute; right: 14px; top: 50%; width: 8px; height: 8px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: translateY(-70%) rotate(45deg); pointer-events: none; }
 .result-count { font-size: .9rem; color: var(--muted); }
+/* count + sort sit above the grid, outside the sticky bar */
+.lineup-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  margin-bottom: clamp(18px, 2.4vw, 28px); }
+#lineup { padding-top: clamp(22px, 3vw, 36px); }
 .empty-state { text-align: center; padding: 60px 20px; color: var(--muted); }
 
 /* ===================================================== spec table (detail) */
@@ -434,7 +438,7 @@ body.nav-open .nav-toggle span::after { transform: translateY(-6px) rotate(-45de
 .modal.is-open .modal__scrim { opacity: 1; }
 .modal__panel {
   position: absolute; top: 50%; left: 50%; transform: translate(-50%, -46%); opacity: 0;
-  width: min(960px, 94vw); max-height: 90vh; overflow: auto; background: var(--cream-2);
+  width: min(960px, 94vw); max-height: 90vh; max-height: 90dvh; overflow: auto; background: var(--cream-2);
   border-radius: var(--r-xl); box-shadow: var(--shadow-lg); transition: transform .4s var(--ease), opacity .3s;
 }
 .modal.is-open .modal__panel { transform: translate(-50%, -50%); opacity: 1; }
@@ -687,4 +691,76 @@ section[id], div[id].filters { scroll-margin-top: calc(var(--nav-h) + 18px); }
 .onboard__card .btn { width: 100%; margin-top: 6px; }
 @media (prefers-reduced-motion: reduce) {
   .onboard.is-open .onboard__card, .onboard.is-open .onboard__scrim { animation: none; }
+}
+
+/* ================================================= phones, tablets, touch */
+/* filter chips: one swipeable row instead of wrapped rows (hamburger range) */
+@media (max-width: 900px) {
+  .filters { padding-block: 10px; }
+  .filters__inner {
+    flex-wrap: nowrap; gap: 10px; overflow-x: auto; overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    /* alpha mask only (not a color): fades chips into the gutters */
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 12px, #000 calc(100% - 20px), transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 12px, #000 calc(100% - 20px), transparent);
+  }
+  .filters__inner::-webkit-scrollbar { display: none; }
+  .chip-group { flex: none; flex-wrap: nowrap; }
+  .chip-group + .chip-group { padding-left: 10px; border-left: 1px solid var(--line-strong); }
+  .chip { flex: none; white-space: nowrap; }
+}
+/* short landscape phones: header alone is enough chrome to keep pinned */
+@media (orientation: landscape) and (max-height: 540px) {
+  .filters { position: static; }
+}
+@media (max-width: 380px) {
+  .nav { gap: 12px; }
+  .nav-right { gap: 6px; }
+}
+
+/* touch: every control reaches 44px; inputs stay ≥16px so iOS doesn't zoom */
+@media (pointer: coarse) {
+  .chip, .qbtn, .btn--sm, .select-wrap select, .link-arrow,
+  .contact-item a:not(.link-arrow) { min-height: 44px; }
+  .chip, .select-wrap select { font-size: 1rem; }
+  .contact-item a:not(.link-arrow) { display: flex; align-items: center; }
+  .lang-toggle { padding: 2px; }
+  .lang-toggle button { min-width: 44px; min-height: 40px; }
+  .theme-toggle, .modal__close, .socials a { width: 44px; height: 44px; }
+  .brand--mark, .footer-brand .brand { min-height: 44px; display: inline-flex; align-items: center; }
+  .footer-col a { min-height: 44px; display: flex; align-items: center; padding-block: 0; }
+}
+
+/* no hover on touch: lifts and zooms would stick after a tap, so press instead */
+@media (hover: none) {
+  .btn:hover, .qbtn:hover, .bike-card:hover, .adv-card:hover, .part-card:hover,
+  .socials a:hover, .pthumb:hover, .theme-toggle:hover, .modal__close:hover,
+  .brand--mark:hover img, .bike-card:hover .bike-card__img,
+  .part-card:hover .part-card__img img, .shot:hover img { transform: none; }
+  .bike-card:hover, .adv-card:hover, .part-card:hover { box-shadow: none; }
+  .btn:active, .qbtn:active, .chip:active, .seg button:active { transform: scale(.97); transition-duration: .1s; }
+  .bike-card:active, .part-card:active { transform: scale(.99); }
+}
+
+/* landscape phone: photo beside the specs instead of a full screen above them */
+@media (max-width: 900px) and (orientation: landscape) and (max-height: 540px) {
+  .modal__panel { width: 96vw; max-height: 94vh; max-height: 94dvh; }
+  .modal__grid, .modal--part .modal__grid { grid-template-columns: 1fr 1fr; }
+  .modal__media, .modal--part .modal__media { aspect-ratio: auto; min-height: 0; align-self: start;
+    position: sticky; top: 0; height: 94vh; height: 94dvh; }
+}
+
+/* WhatsApp within thumb reach on phones and tablets (the primary sales channel) */
+.wa-fab { display: none; }
+@media (max-width: 900px) {
+  .wa-fab {
+    display: inline-flex; position: fixed; z-index: 80;
+    right: max(16px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom));
+    min-height: 50px; padding: 0 20px 0 16px; box-shadow: var(--shadow-lg);
+    opacity: 0; visibility: hidden; transform: translateY(24px) scale(.96);
+    transition: opacity .3s var(--ease), transform .4s var(--ease), visibility 0s linear .4s;
+  }
+  .wa-fab svg { width: 1.3em; height: 1.3em; }
+  .wa-fab.is-shown { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
+  body.nav-open .wa-fab { opacity: 0; visibility: hidden; }
 }

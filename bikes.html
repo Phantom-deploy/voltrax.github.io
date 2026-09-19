@@ -37,7 +37,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/styles.css?v=14">
+  <link rel="stylesheet" href="assets/css/styles.css?v=15">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -138,23 +138,24 @@
           <button class="chip" data-avail="import" aria-pressed="false" data-i18n="filters.import">Importación</button>
           <button class="chip" data-avail="out-of-stock" aria-pressed="false" data-i18n="filters.outOfStock">Agotado</button>
         </div>
-        <div class="filters__spacer"></div>
-        <span class="result-count" id="resultCount"></span>
-        <div class="select-wrap">
-          <label class="sr-only" for="sortSelect" data-i18n="filters.sortLabel">Ordenar</label>
-          <select id="sortSelect">
-            <option value="featured" data-i18n="sort.featured">Destacadas</option>
-            <option value="top" data-i18n="sort.speed">Velocidad máx.</option>
-            <option value="range" data-i18n="sort.range">Autonomía</option>
-            <option value="power" data-i18n="sort.power">Potencia</option>
-          </select>
-        </div>
       </div>
     </div>
 
     <section class="section section--tight" id="lineup" aria-labelledby="lineupHeading">
       <div class="container">
         <h2 id="lineupHeading" class="sr-only" data-i18n="feat.title">Llévatela esta semana.</h2>
+        <div class="lineup-bar">
+          <p class="result-count" id="resultCount" aria-live="polite"></p>
+          <div class="select-wrap">
+            <label class="sr-only" for="sortSelect" data-i18n="filters.sortLabel">Ordenar</label>
+            <select id="sortSelect">
+              <option value="featured" data-i18n="sort.featured">Destacadas</option>
+              <option value="top" data-i18n="sort.speed">Velocidad máx.</option>
+              <option value="range" data-i18n="sort.range">Autonomía</option>
+              <option value="power" data-i18n="sort.power">Potencia</option>
+            </select>
+          </div>
+        </div>
         <div class="grid grid--bikes" id="bikeGrid"></div>
       </div>
     </section>
@@ -272,8 +273,8 @@
     </div>
   </div>
 
-  <script src="assets/js/data.js?v=14"></script>
-  <script src="assets/js/i18n.js?v=14"></script>
-  <script src="assets/js/app.js?v=14"></script>
+  <script src="assets/js/data.js?v=15"></script>
+  <script src="assets/js/i18n.js?v=15"></script>
+  <script src="assets/js/app.js?v=15"></script>
 </body>
 </html>
