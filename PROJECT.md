@@ -65,7 +65,11 @@ editing copy.
 
 **Theming.** Light by default, or dark when the OS prefers it and no choice is
 stored; dark via `<html data-theme="dark">`, which also sets `color-scheme` so
-native controls follow. All colors
+native controls follow. Brand red has two roles: `--red` fills
+buttons, `--red-text` is for red text, icons and focus rings (lifted to
+`#EC5B60` in dark so it stays ≥4.5:1). Import/special-order uses the
+`--gold` / `--gold-soft` / `--gold-text` trio. Every text token clears 4.5:1 on
+the page surfaces in both themes; check new pairs before adding one. All colors
 come from CSS custom properties in `:root`, redefined in the
 `[data-theme="dark"]` block — never hardcode a color in a component rule. An
 inline script in `<head>` applies the stored theme and language *before* first
