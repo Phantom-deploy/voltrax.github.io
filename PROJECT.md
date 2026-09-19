@@ -20,6 +20,7 @@ index.html          Home: hero, quicknav, featured bikes, showroom, why/advantag
                     parts teaser, import CTA, contact form, footer, onboarding popup
 bikes.html          Full inventory + filter bar + bike detail modal
 parts.html          Parts & accessories catalog + part detail modal
+assets/fonts/           Self-hosted Sora + Manrope variable woff2 (Latin)
 assets/css/styles.css   Single stylesheet (design tokens, layout, components, dark theme)
 assets/js/data.js       Content database: bikes, parts, showroom, brands, spec labels
 assets/js/i18n.js       ES/EN dictionary + runtime translator
@@ -101,8 +102,13 @@ messages (bike, part, import, contact form, onboarding discount) are built by
 visible number and the JSON-LD `telephone` are hard-coded in the three HTML
 pages and `llms.txt` — change all of them together.
 
-**No network calls at runtime.** The only third-party request is the Google
-Fonts stylesheet (Sora + Manrope, `display=swap`, preconnected).
+**No third-party requests.** Sora and Manrope are self-hosted variable fonts
+(`assets/fonts/*-latin.woff2`, Latin subset covering Spanish, `display=swap`).
+They are intentionally not preloaded (it slowed first paint on thin
+connections); metric-matched "Sora Fallback" / "Manrope Fallback" faces keep
+the swap from shifting layout. `content-visibility` is only used on the brand
+strip and footer — on sections it broke `#anchor` jumps. The hero ships an
+extra `@1000` variant so 2–2.75× phones don't pull the 1400px file.
 
 ## Images
 

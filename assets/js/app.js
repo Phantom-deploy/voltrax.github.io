@@ -85,10 +85,12 @@
     document.body.appendChild(fab);
 
     var hero = document.querySelector(".hero, .page-hero");
-    var past = false, covered = 0;
+    var past = false, covered = 0, limit = 400;
+    var measure = function () { if (hero) limit = hero.offsetTop + hero.offsetHeight * 0.75; };
+    measure();
+    window.addEventListener("resize", measure, { passive: true });
     var update = function () { fab.classList.toggle("is-shown", past && covered === 0); };
     var onScroll = function () {
-      var limit = hero ? hero.offsetTop + hero.offsetHeight * 0.75 : 400;
       var now = window.scrollY > limit;
       if (now !== past) { past = now; update(); }
     };
@@ -157,13 +159,16 @@
     return '<span class="badge badge--import"><span class="dot"></span>' + i18n.t("badge.import") + "</span>";
   }
 
-  function bikeCard(bike) {
+  /* eager = card sits in the first viewport (bikes page), so its photo is the
+     LCP element: don't lazy-load it, and hint the very first one as high priority */
+  function bikeCard(bike, eager) {
     var badge = availBadge(bike);
     var card = el("article", "bike-card" + (bike.availability === "out-of-stock" ? " is-out" : "") + " reveal");
     card.innerHTML =
       '<div class="bike-card__stage">' +
         '<div class="bike-card__badges">' + badge + "</div>" +
-        '<img class="bike-card__img" loading="lazy" decoding="async" width="800" height="516" ' +
+        '<img class="bike-card__img" ' + (eager ? 'loading="eager"' + (eager === 1 ? ' fetchpriority="high"' : "") : 'loading="lazy"') +
+          ' decoding="async" width="800" height="516" ' +
           'src="' + IMG + "bikes/" + bike.img + '@800.webp"' +
           ' srcset="' + IMG + "bikes/" + bike.img + "@500.webp 500w, " + IMG + "bikes/" + bike.img + '@800.webp 800w"' +
           ' sizes="(max-width: 420px) 92vw, (max-width: 900px) 46vw, 30vw"' +
@@ -233,7 +238,7 @@
       grid.appendChild(el("div", "empty-state", i18n.t("bikespage.empty")));
     } else {
       list.forEach(function (b, i) {
-        var c = bikeCard(b);
+        var c = bikeCard(b, i < 2 ? i + 1 : 0);
         c.setAttribute("data-delay", String((i % 3) + 1));
         grid.appendChild(c);
       });
@@ -338,7 +343,10 @@
     buildModal();
     var m = document.getElementById("bikeModal");
     var img = document.getElementById("modalImg");
-    img.src = IMG + "bikes/" + bike.img + ".webp";
+    var base = IMG + "bikes/" + bike.img;
+    img.sizes = "(max-width: 900px) 94vw, 500px";
+    img.srcset = base + "@500.webp 500w, " + base + "@800.webp 800w, " + base + ".webp 1400w";
+    img.src = base + "@800.webp";
     img.alt = pick(bike.imgAlt);
 
     var badge = bike.availability === "in-stock"
@@ -446,6 +454,8 @@
     var m = document.getElementById("bikeModal");
     var img = document.getElementById("modalImg");
     var shots = partImages(p);
+    img.removeAttribute("srcset");
+    img.removeAttribute("sizes");
     img.src = shots[0].full;
     img.alt = pick(p.name);
 
